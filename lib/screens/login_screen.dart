@@ -39,8 +39,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomCenter,
                         colors: [
-                          AppTheme.colors.white,
-                          AppTheme.colors.blue,
+                          Colors.white,
+                          Color(0xff14279B),
                         ],
                       ),
                     ),
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   obscureText: false,
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      fillColor: AppTheme.colors.gray,
+                                      fillColor: Color(0xfff3f3f4),
                                       filled: true))
                             ],
                           ),
@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   obscureText: true,
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      fillColor: AppTheme.colors.gray,
+                                      fillColor: Color(0xfff3f3f4),
                                       filled: true))
                             ],
                           ),
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 blurRadius: 5,
                                 spreadRadius: 2)
                           ],
-                          color: AppTheme.colors.darkblue,
+                          color: Color(0xff2c2772),
                         ),
                         child: Text(
                           'Giriş',

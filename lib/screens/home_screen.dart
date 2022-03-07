@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:haytek/screens/login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen(this.title);
-
-  final String title;
+  const HomeScreen();
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

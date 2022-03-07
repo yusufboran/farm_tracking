@@ -12,8 +12,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController user = TextEditingController();
-  TextEditingController pass = TextEditingController();
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 10,
                               ),
                               TextField(
-                                  controller: user,
+                                  controller: username,
                                   obscureText: false,
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 10,
                               ),
                               TextField(
-                                  controller: pass,
+                                  controller: password,
                                   obscureText: true,
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onTap: () => Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomeScreen("hello"),
+                          builder: (context) => HomeScreen(),
                         ),
                       ),
                       child: Container(

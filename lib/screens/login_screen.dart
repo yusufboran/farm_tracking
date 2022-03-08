@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:crypt/crypt.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:haytek/screens/home_screen.dart';
 import 'package:haytek/theme/app_theme.dart';
 import 'package:haytek/widgets/customClipper.dart';
@@ -14,7 +16,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
-
+  bool isHidden = true;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -77,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   controller: username,
                                   obscureText: false,
                                   decoration: InputDecoration(
+                                      prefixIcon: Icon(Icons.mail_outline),
                                       border: InputBorder.none,
                                       fillColor: Color(0xfff3f3f4),
                                       filled: true))
@@ -97,12 +100,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 10,
                               ),
                               TextField(
-                                  controller: password,
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      fillColor: Color(0xfff3f3f4),
-                                      filled: true))
+                                controller: password,
+                                obscureText: isHidden,
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.lock),
+                                    suffixIcon: IconButton(
+                                      icon: isHidden
+                                          ? Icon(Icons.visibility_off)
+                                          : Icon(Icons.visibility),
+                                      onPressed: togglePasswordVisibility,
+                                    ),
+                                    border: InputBorder.none,
+                                    fillColor: Color(0xfff3f3f4),
+                                    filled: true),
+                                autofillHints: [AutofillHints.password],
+                                onEditingComplete: () =>
+                                    TextInput.finishAutofillContext(),
+                              ),
                             ],
                           ),
                         )
@@ -110,12 +124,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(height: 20),
                     GestureDetector(
-                      onTap: () => Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomeScreen(),
-                        ),
-                      ),
+                      onTap: () => {
+                        login(username: username, password: password),
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         padding: EdgeInsets.symmetric(vertical: 15),
@@ -124,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                                color: Colors.grey.shade200,
+                                color: Color.fromRGBO(238, 238, 238, 1),
                                 offset: Offset(2, 4),
                                 blurRadius: 5,
                                 spreadRadius: 2)
@@ -153,4 +164,36 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  void login({required username, required password}) async {
+    var url = Uri.parse("http://10.220.62.48/haytek_sut_takip/login.php");
+    var data = {'username': username.text};
+    var pass_hash =
+        Crypt.sha256(password.text, salt: 'abcdefghijklmnop').toString();
+    final response = await http.post(url, body: data);
+
+    if (response.statusCode == 200) {
+      var datauser = json.decode(response.body);
+      print(pass_hash);
+
+      print(datauser[0]["password"]);
+
+      if (pass_hash == datauser[0]["password"]) {
+        print("check");
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+        );
+      } else
+        print("password is wrong");
+    } else {
+      print('A network error occurred');
+    }
+  }
+
+  void togglePasswordVisibility() => setState(() {
+        isHidden = !isHidden;
+      });
 }

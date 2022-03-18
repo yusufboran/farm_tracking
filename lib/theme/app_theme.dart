@@ -13,12 +13,11 @@ class AppTheme {
     appBarTheme: AppBarTheme(
       color: Color(0xff2c2772),
       iconTheme: IconThemeData(
-        color: Colors.white,
+        color: Color(0xfffafafa),
       ),
     ),
     colorScheme: ColorScheme.light(
-      primary: Colors.white,
-      onPrimary: Colors.white,
+      primary: Color(0xff2c2772),
       primaryVariant: Colors.white38,
       secondary: Colors.yellow,
     ),
@@ -28,16 +27,6 @@ class AppTheme {
     iconTheme: IconThemeData(
       color: Colors.white54,
     ),
-    // textTheme: TextTheme(
-    //   title: TextStyle(
-    //     color: Colors.white,
-    //     fontSize: 20.0,
-    //   ),
-    //   subtitle: TextStyle(
-    //     color: Colors.white70,
-    //     fontSize: 18.0,
-    //   ),
-    // ),
   );
 
   static final ThemeData darkTheme = ThemeData(

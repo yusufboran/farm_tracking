@@ -1,28 +1,43 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:haytek/screens/login_screen.dart';
+import 'package:haytek/widgets/datepicker.dart';
 
-class HomeScreen extends StatefulWidget {
-  HomeScreen();
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int _counter = 0;
+class _HomePageState extends State<HomePage> {
+  List _items = [];
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+// Fetch content from the json file
+  // Future<void> readJson() async {
+  //   final String response = await rootBundle.loadString('assets/data.json');
+  //   final data = await json.decode(response);
+  //   setState(() {
+  //     _items = data["items"];
+  //   });
+  // }
+
+  late DateTime startDate;
+  late DateTime finishDate;
+  _startDate(value) => setState(() => startDate = value);
+  _finishDate(value) => setState(() => finishDate = value);
+
+  @override
+  void initState() {
+    super.initState();
+
+    final now = DateTime.now();
+    finishDate = now;
+    startDate = DateTime(now.year, now.month, now.day - 7);
   }
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style =
-        TextButton.styleFrom(primary: Theme.of(context).colorScheme.onPrimary);
+    String dropdownValue = 'One';
     return Scaffold(
       appBar: AppBar(
         title: Text("Haytek süt takip"),
@@ -37,27 +52,47 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (context) => LoginScreen(),
               ),
             ),
-          )
+          ),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Column(
+        children: [
+          SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //MainAxisAlignment.center
+            children: [
+              DatePicker(date: _startDate, showDate: startDate),
+              DatePicker(date: _finishDate, showDate: finishDate),
+            ],
+          ),
+
+          DropdownButton<String>(
+            value: dropdownValue,
+            icon: const Icon(Icons.arrow_downward),
+            elevation: 16,
+            style: const TextStyle(color: Colors.deepPurple),
+            underline: Container(
+              height: 2,
+              color: Colors.deepPurpleAccent,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+            onChanged: (String? newValue) {
+              setState(() {
+                dropdownValue = newValue!;
+              });
+            },
+            items: <String>['One', 'Two', 'Free', 'Four']
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          )
+          // Expanded(
+          //   child: LineChartPage(_items),
+          // ),
+        ],
       ),
     );
   }

@@ -9,7 +9,7 @@ class AppTheme {
 
   AppTheme._();
   static final ThemeData lightTheme = ThemeData(
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: Color(0xffeeeeee),
     appBarTheme: AppBarTheme(
       color: Color(0xff2c2772),
       iconTheme: IconThemeData(

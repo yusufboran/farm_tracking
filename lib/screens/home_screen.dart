@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:haytek/screens/login_screen.dart';
 import 'package:haytek/widgets/datepicker.dart';
+import 'package:haytek/widgets/search_field.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,6 +21,8 @@ class _HomePageState extends State<HomePage> {
   //     _items = data["items"];
   //   });
   // }
+  String search_text = "";
+  _search_text(value) => setState(() => search_text = value);
 
   late DateTime startDate;
   late DateTime finishDate;
@@ -67,28 +70,13 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
 
-          DropdownButton<String>(
-            value: dropdownValue,
-            icon: const Icon(Icons.arrow_downward),
-            elevation: 16,
-            style: const TextStyle(color: Colors.deepPurple),
-            underline: Container(
-              height: 2,
-              color: Colors.deepPurpleAccent,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: AutocompleteBasicExample(
+              search_text: _search_text,
             ),
-            onChanged: (String? newValue) {
-              setState(() {
-                dropdownValue = newValue!;
-              });
-            },
-            items: <String>['One', 'Two', 'Free', 'Four']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          )
+          ),
+          Text(search_text)
           // Expanded(
           //   child: LineChartPage(_items),
           // ),

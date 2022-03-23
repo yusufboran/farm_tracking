@@ -17,6 +17,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: 
   crypt:
+  awesome_dropdown:
   
 
 dev_dependencies:

@@ -62,52 +62,43 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: <Widget>[
                     SizedBox(height: height * .2),
                     Image.asset('assets/haytek_logo_dark_blue.png'),
-                    SizedBox(height: 50),
+                    SizedBox(height: 60),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.symmetric(vertical: 12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              TextField(
-                                  controller: username,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                      hintText: "Kullanıcı Adı",
-                                      prefixIcon: Icon(Icons.mail_outline),
-                                      border: InputBorder.none,
-                                      fillColor: Color(0xfff3f3f4),
-                                      filled: true))
-                            ],
-                          ),
-                        ),
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            child: TextField(
+                              controller: username,
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                  hintText: "Kullanıcı Adı",
+                                  prefixIcon: Icon(Icons.mail_outline),
+                                  border: InputBorder.none,
+                                  fillColor: Color(0xfff3f3f4),
+                                  filled: true),
+                            )),
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              TextField(
-                                controller: password,
-                                obscureText: isHidden,
-                                decoration: InputDecoration(
-                                    hintText: "Parola",
-                                    prefixIcon: Icon(Icons.lock),
-                                    suffixIcon: IconButton(
-                                      splashColor: Colors.transparent,
-                                      icon: isHidden
-                                          ? Icon(Icons.visibility_off)
-                                          : Icon(Icons.visibility),
-                                      onPressed: togglePasswordVisibility,
-                                    ),
-                                    border: InputBorder.none,
-                                    fillColor: Color(0xfff3f3f4),
-                                    filled: true),
-                                autofillHints: [AutofillHints.password],
-                                onEditingComplete: () =>
-                                    TextInput.finishAutofillContext(),
-                              ),
-                            ],
+                          child: TextField(
+                            controller: password,
+                            obscureText: isHidden,
+                            decoration: InputDecoration(
+                                hintText: "Parola",
+                                prefixIcon: Icon(Icons.lock),
+                                suffixIcon: IconButton(
+                                  splashColor: Colors.transparent,
+                                  icon: isHidden
+                                      ? Icon(Icons.visibility_off)
+                                      : Icon(Icons.visibility),
+                                  onPressed: togglePasswordVisibility,
+                                ),
+                                border: InputBorder.none,
+                                fillColor: Color(0xfff3f3f4),
+                                filled: true),
+                            autofillHints: [AutofillHints.password],
+                            onEditingComplete: () =>
+                                TextInput.finishAutofillContext(),
                           ),
                         )
                       ],

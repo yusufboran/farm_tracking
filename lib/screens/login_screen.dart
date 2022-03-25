@@ -61,27 +61,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(height: height * .2),
-                    Image.asset('assets/haytek_logo_dark_blue_title.png'),
+                    Image.asset('assets/haytek_logo_dark_blue.png'),
                     SizedBox(height: 50),
                     Column(
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
+                          margin: EdgeInsets.symmetric(vertical: 12),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
-                                "Kullanıcı Adı",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
                               TextField(
                                   controller: username,
                                   obscureText: false,
                                   decoration: InputDecoration(
+                                      hintText: "Kullanıcı Adı",
                                       prefixIcon: Icon(Icons.mail_outline),
                                       border: InputBorder.none,
                                       fillColor: Color(0xfff3f3f4),
@@ -94,20 +87,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
-                                "Parola",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
                               TextField(
                                 controller: password,
                                 obscureText: isHidden,
                                 decoration: InputDecoration(
+                                    hintText: "Parola",
                                     prefixIcon: Icon(Icons.lock),
                                     suffixIcon: IconButton(
+                                      splashColor: Colors.transparent,
                                       icon: isHidden
                                           ? Icon(Icons.visibility_off)
                                           : Icon(Icons.visibility),
@@ -158,12 +145,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
                       alignment: Alignment.centerRight,
-                      child: Text('Şifremi Unuttum',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w500)),
-                    ),
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text('Şifremi Unuttum',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500)),
+                      ),
+                    )
                   ],
                 ),
               ),

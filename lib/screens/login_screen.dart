@@ -16,7 +16,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
+
   bool isHidden = true;
+  togglePasswordVisibility() => setState(() => isHidden = !isHidden);
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -198,8 +201,4 @@ class _LoginScreenState extends State<LoginScreen> {
       print('A network error occurred');
     }
   }
-
-  void togglePasswordVisibility() => setState(() {
-        isHidden = !isHidden;
-      });
 }

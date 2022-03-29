@@ -16,13 +16,12 @@ class _DatePickerState extends State<DatePicker> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(
-            width: 140.0,
             height: 44,
             child: ElevatedButton(
               style: ButtonStyle(
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(22.0),
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
                 ),
                 backgroundColor: MaterialStateProperty.all(Color(0xff2c2772)),

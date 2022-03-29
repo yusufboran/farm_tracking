@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:haytek/screens/login_screen.dart';
 import 'package:haytek/widgets/datepicker.dart';
-import 'package:haytek/widgets/search_field.dart';
+import 'package:haytek/widgets/list_field.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  List<String> animal_list;
+  HomePage({Key? key, required this.animal_list}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -13,17 +14,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List _items = [];
 
-// Fetch content from the json file
-  // Future<void> readJson() async {
-  //   final String response = await rootBundle.loadString('assets/data.json');
-  //   final data = await json.decode(response);
-  //   setState(() {
-  //     _items = data["items"];
-  //   });
-  // }
-  String search_text = "";
-  _search_text(value) => setState(() => search_text = value);
-
   late DateTime startDate;
   late DateTime finishDate;
   _startDate(value) => setState(() => startDate = value);
@@ -31,8 +21,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    widget.animal_list.insert(0, "Hepsi");
     super.initState();
-
     final now = DateTime.now();
     finishDate = now;
     startDate = DateTime(now.year, now.month, now.day - 7);
@@ -40,7 +30,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = 'One';
+    String dropdownValue = 'Hepsi';
     return Scaffold(
       appBar: AppBar(
         title: Text("Haytek süt takip"),
@@ -63,20 +53,15 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //MainAxisAlignment.center
             children: [
               DatePicker(date: _startDate, showDate: startDate),
               DatePicker(date: _finishDate, showDate: finishDate),
+              ListField(
+                  animal_list: widget.animal_list,
+                  dropdownValue: dropdownValue),
             ],
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: AutocompleteBasicExample(
-              search_text: _search_text,
-            ),
-          ),
-          Text(search_text)
           // Expanded(
           //   child: LineChartPage(_items),
           // ),

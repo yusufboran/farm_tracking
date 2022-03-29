@@ -17,8 +17,14 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
 
+  late List<String> animal_list_items = [];
   bool isHidden = true;
   togglePasswordVisibility() => setState(() => isHidden = !isHidden);
+
+  @override
+  void initState() {
+    animal_list_query();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +102,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 border: InputBorder.none,
                                 fillColor: Color(0xfff3f3f4),
                                 filled: true),
-                            autofillHints: [AutofillHints.password],
                             onEditingComplete: () =>
                                 TextInput.finishAutofillContext(),
                           ),
@@ -109,10 +114,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomePage(),
+                            builder: (context) =>
+                                HomePage(animal_list: animal_list_items),
                           ),
                         ),
-                        //   login(username: username, password: password),
+                        // login(username: username, password: password),
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
@@ -155,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login({required username, required password}) async {
-    var url = Uri.parse("http://10.220.62.48/haytek_sut_takip/login.php");
+    var url = Uri.parse("http://10.220.62.48/mail/query.php");
     var data = {'username': username.text};
     var pass_hash =
         Crypt.sha256(password.text, salt: 'abcdefghijklmnop').toString();
@@ -168,17 +174,35 @@ class _LoginScreenState extends State<LoginScreen> {
       print(datauser[0]["password"]);
 
       if (pass_hash == datauser[0]["password"]) {
-        print("check");
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => HomePage(animal_list: animal_list_items),
           ),
         );
       } else
         print("password is wrong");
     } else {
       print('A network error occurred');
+    }
+  }
+
+  void animal_list_query() async {
+    animal_list_items = [];
+    var url = Uri.parse("http://10.220.62.48/mail/query.php");
+    var data = {'farm_id': "1"};
+    var response = await http.post(url, body: data);
+
+    if (response.statusCode == 200) {
+      List datauser = json.decode(response.body);
+
+      setState(() {
+        datauser.forEach((e) {
+          animal_list_items.add(e["animal_id"].toString());
+        });
+      });
+    } else {
+      print('A network error occurred : (query)');
     }
   }
 }

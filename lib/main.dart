@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:haytek/screens/home_screen.dart';
 import 'package:haytek/screens/login_screen.dart';
 import 'package:haytek/theme/app_theme.dart';
 import 'package:haytek/theme/color.dart';
@@ -22,8 +21,6 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: [
-        const Locale('en', 'US'),
-        const Locale('ru', 'RU'),
         const Locale('tr', 'TR'),
       ],
       title: 'Flutter Demo',

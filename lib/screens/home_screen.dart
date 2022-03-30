@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:haytek/screens/login_screen.dart';
 import 'package:haytek/widgets/datepicker.dart';
+import 'package:haytek/widgets/line_charts.dart';
 import 'package:haytek/widgets/list_field.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   List<String> animal_list;
@@ -16,6 +20,10 @@ class _HomePageState extends State<HomePage> {
 
   late DateTime startDate;
   late DateTime finishDate;
+  String dropdownValue = "Hepsi";
+
+  setDropdownValue(value) => setState(() => dropdownValue = value);
+  getDropdownValue() => dropdownValue;
   _startDate(value) => setState(() => startDate = value);
   _finishDate(value) => setState(() => finishDate = value);
 
@@ -30,7 +38,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = 'Hepsi';
     return Scaffold(
       appBar: AppBar(
         title: Text("Haytek süt takip"),
@@ -58,15 +65,69 @@ class _HomePageState extends State<HomePage> {
               DatePicker(date: _finishDate, showDate: finishDate),
               ListField(
                   animal_list: widget.animal_list,
-                  dropdownValue: dropdownValue),
+                  setDropdownValue: setDropdownValue,
+                  getDropdownValue: getDropdownValue),
             ],
           ),
-
-          // Expanded(
-          //   child: LineChartPage(_items),
-          // ),
+          SizedBox(height: 20),
+          GestureDetector(
+            onTap: () => {
+              print(startDate),
+              print(finishDate),
+              print(dropdownValue),
+              query(),
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(horizontal: 24),
+              padding: EdgeInsets.symmetric(vertical: 15),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Color.fromRGBO(238, 238, 238, 1),
+                      offset: Offset(2, 4),
+                      blurRadius: 5,
+                      spreadRadius: 2)
+                ],
+                color: Color(0xff2c2772),
+              ),
+              child: Text(
+                'Giriş',
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+            ),
+          ),
+          LineChartPage(),
+          Expanded(
+            child: Text(_items.toString()),
+          ),
         ],
       ),
     );
+  }
+
+  void query() async {
+    List items = [];
+    var url = Uri.parse("http://10.220.62.48/mail/query.php");
+    var data = {
+      'start_date': startDate.toString(),
+      'finish_date': finishDate.toString(),
+      'animal_id': "687433"
+      //   'animal_id': dropdownValue == "Hepsi" ? "687433" : dropdownValue.toString(),
+    };
+    final response = await http.post(url, body: data);
+
+    if (response.statusCode == 200) {
+      var datauser = json.decode(response.body);
+      setState(() {
+        datauser.forEach((e) {
+          _items.add(e);
+        });
+      });
+    } else {
+      print('A network error occurred');
+    }
   }
 }

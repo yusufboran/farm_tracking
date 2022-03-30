@@ -4,8 +4,7 @@ import 'package:crypt/crypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:haytek/screens/home_screen.dart';
-import 'package:haytek/theme/app_theme.dart';
-import 'package:haytek/widgets/customClipper.dart';
+import 'package:haytek/widgets/custom_clipper.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {

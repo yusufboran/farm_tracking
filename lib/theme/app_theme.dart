@@ -9,6 +9,7 @@ class AppTheme {
 
   AppTheme._();
   static final ThemeData lightTheme = ThemeData(
+    primaryColor: Color(0xff2c2772),
     scaffoldBackgroundColor: Color(0xffeeeeee),
     appBarTheme: AppBarTheme(
       color: Color(0xff2c2772),
@@ -26,6 +27,9 @@ class AppTheme {
     ),
     iconTheme: IconThemeData(
       color: Colors.white54,
+    ),
+    textTheme: TextTheme(
+      button: TextStyle(color: Color(0xff2c2772)),
     ),
   );
 

@@ -18,6 +18,7 @@ dependencies:
   http: 
   crypt:
   awesome_dropdown:
+  syncfusion_flutter_charts:
   
 
 dev_dependencies:

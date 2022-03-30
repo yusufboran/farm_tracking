@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ListField extends StatefulWidget {
-  String dropdownValue;
   List<String> animal_list;
-  ListField({required this.animal_list, required this.dropdownValue});
+  var setDropdownValue;
+  var getDropdownValue;
+  ListField({
+    required this.animal_list,
+    required this.setDropdownValue,
+    required this.getDropdownValue,
+  });
 
   @override
   State<ListField> createState() => _ListFieldState();
@@ -13,18 +18,17 @@ class _ListFieldState extends State<ListField> {
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
-      value: widget.dropdownValue,
+      value: widget.getDropdownValue(),
       icon: const Icon(Icons.arrow_drop_down),
       elevation: 16,
-      style: const TextStyle(color: Color(0xff2c2772)),
+      style: Theme.of(context).textTheme.button,
       underline: Container(
         height: 2,
-        color: Color(0xff2c2772),
+        color: Theme.of(context).primaryColor,
       ),
       onChanged: (String? newValue) {
         setState(() {
-          widget.dropdownValue = newValue!;
-          print(widget.dropdownValue);
+          widget.setDropdownValue(newValue);
         });
       },
       items: widget.animal_list.map<DropdownMenuItem<String>>((String value) {

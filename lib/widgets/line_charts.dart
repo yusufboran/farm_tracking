@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:haytek/entities/milk.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class LineChartPage extends StatefulWidget {
-  const LineChartPage({Key? key}) : super(key: key);
+  List<Milk> items;
+  LineChartPage({required this.items});
 
   @override
   State<LineChartPage> createState() => _LineChartPageState();
@@ -27,19 +29,13 @@ class _LineChartPageState extends State<LineChartPage> {
         primaryXAxis: CategoryAxis(),
         series: <ChartSeries>[
           // Initialize line series
-          LineSeries<ChartData, String>(
-              // Enables the tooltip for individual series
-              enableTooltip: true,
-              dataSource: [
-                // Bind data source
-                ChartData('Jan', 35),
-                ChartData('Feb', 28),
-                ChartData('Mar', 34),
-                ChartData('Apr', 32),
-                ChartData('May', 40)
-              ],
-              xValueMapper: (ChartData data, _) => data.x,
-              yValueMapper: (ChartData data, _) => data.y)
+          LineSeries<Milk, String>(
+            // Enables the tooltip for individual series
+            enableTooltip: true,
+            dataSource: widget.items,
+            xValueMapper: (Milk data, _) => data.dateTime,
+            yValueMapper: (Milk data, _) => data.conductivity,
+          )
         ],
       ),
     );

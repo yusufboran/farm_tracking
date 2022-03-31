@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:haytek/entities/milk.dart';
 import 'package:haytek/screens/login_screen.dart';
 import 'package:haytek/widgets/datepicker.dart';
 import 'package:haytek/widgets/line_charts.dart';
@@ -16,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List _items = [];
+  List<Milk> _items = [];
 
   late DateTime startDate;
   late DateTime finishDate;
@@ -72,9 +73,6 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 20),
           GestureDetector(
             onTap: () => {
-              print(startDate),
-              print(finishDate),
-              print(dropdownValue),
               query(),
             },
             child: Container(
@@ -99,7 +97,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          LineChartPage(),
+          LineChartPage(items: _items),
           Expanded(
             child: Text(_items.toString()),
           ),
@@ -109,7 +107,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void query() async {
-    List items = [];
+    List<Milk> items = [];
     var url = Uri.parse("http://10.220.62.48/mail/query.php");
     var data = {
       'start_date': startDate.toString(),
@@ -121,10 +119,17 @@ class _HomePageState extends State<HomePage> {
 
     if (response.statusCode == 200) {
       var datauser = json.decode(response.body);
+      datauser.forEach(
+        (e) {
+          items.add(Milk(
+              dateTime: e[
+                  "transaction_date"], //DateTime.parse(e["transaction_date"]),
+              milk_quantity: double.parse(e["milk_quantity"]),
+              conductivity: double.parse(e["conductivity"])));
+        },
+      );
       setState(() {
-        datauser.forEach((e) {
-          _items.add(e);
-        });
+        _items = items;
       });
     } else {
       print('A network error occurred');

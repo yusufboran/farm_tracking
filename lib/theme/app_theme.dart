@@ -36,9 +36,9 @@ class AppTheme {
   static final ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.black,
     appBarTheme: AppBarTheme(
-      color: Colors.black,
+      color: Color(0xff2c2772),
       iconTheme: IconThemeData(
-        color: Colors.white,
+        color: Color(0xfffafafa),
       ),
     ),
     colorScheme: ColorScheme.light(

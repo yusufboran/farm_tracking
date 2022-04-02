@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
             },
             child: Container(
               width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 24),
+              margin: EdgeInsets.symmetric(horizontal: 60),
               padding: EdgeInsets.symmetric(vertical: 15),
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                 color: Color(0xff2c2772),
               ),
               child: Text(
-                'Giriş',
+                'Ara',
                 style: TextStyle(fontSize: 20, color: Colors.white),
               ),
             ),

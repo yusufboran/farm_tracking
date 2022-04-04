@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Column(
+      body: ListView(
         children: [
           SizedBox(height: 24),
           Row(
@@ -99,9 +99,9 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           LineChartPage(items: _items),
-          Expanded(
-            child: Text(_items.toString()),
-          ),
+          // Expanded(
+          //   child: Text(_items.toString()),
+          // ),
         ],
       ),
     );
@@ -113,8 +113,8 @@ class _HomePageState extends State<HomePage> {
     var data = {
       'start_date': startDate.toString(),
       'finish_date': finishDate.toString(),
-      // 'animal_id':
-      //     dropdownValue == "Hepsi" ? "Hepsi" : dropdownValue.toString(),
+      'animal_id':
+          dropdownValue == "Hepsi" ? "Hepsi" : dropdownValue.toString(),
     };
 
     final response = await http.post(url, body: data);
@@ -133,10 +133,9 @@ class _HomePageState extends State<HomePage> {
       );
       setState(() {
         _items = items;
-        print(items);
       });
     } else {
-      print('A network error occurred');
+      print('A network error occurred : home screen query');
     }
   }
 }

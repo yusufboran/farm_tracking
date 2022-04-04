@@ -183,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
       } else
         print("password is wrong");
     } else {
-      print('A network error occurred');
+      print('A network error occurred : login');
     }
   }
 
@@ -203,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
         animal_list_items = list;
       });
     } else {
-      print('A network error occurred : (query)');
+      print('A network error occurred : (animal_list_query)');
     }
   }
 }

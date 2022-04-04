@@ -197,7 +197,6 @@ class _LoginScreenState extends State<LoginScreen> {
       List datauser = json.decode(response.body);
 
       datauser.forEach((e) {
-        print(e);
         list.add(e["animal_id"].toString());
       });
       setState(() {

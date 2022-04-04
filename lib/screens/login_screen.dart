@@ -110,6 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 20),
                     GestureDetector(
                       onTap: () => {
+                        animal_list_query(),
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -187,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void animal_list_query() async {
-    animal_list_items = [];
+    List<String> list = [];
     var url = Uri.parse("http://10.220.62.48/mail/query.php");
     var data = {'farm_id': "1"};
     var response = await http.post(url, body: data);
@@ -195,10 +196,13 @@ class _LoginScreenState extends State<LoginScreen> {
     if (response.statusCode == 200) {
       List datauser = json.decode(response.body);
 
+      datauser.forEach((e) {
+        print(e);
+        list.add(e["animal_id"].toString());
+      });
       setState(() {
-        datauser.forEach((e) {
-          animal_list_items.add(e["animal_id"].toString());
-        });
+        animal_list_items = list;
+        print(animal_list_items);
       });
     } else {
       print('A network error occurred : (query)');

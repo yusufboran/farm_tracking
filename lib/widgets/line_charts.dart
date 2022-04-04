@@ -23,14 +23,10 @@ class _LineChartPageState extends State<LineChartPage> {
   Widget build(BuildContext context) {
     return Container(
       child: SfCartesianChart(
-        // Enables the tooltip for all the series in chart
         tooltipBehavior: _tooltipBehavior,
-        // Initialize category axis
         primaryXAxis: CategoryAxis(),
         series: <ChartSeries>[
-          // Initialize line series
           LineSeries<Milk, String>(
-            // Enables the tooltip for individual series
             enableTooltip: true,
             dataSource: widget.items,
             xValueMapper: (Milk data, _) => data.dateTime,

@@ -201,7 +201,6 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       setState(() {
         animal_list_items = list;
-        print(animal_list_items);
       });
     } else {
       print('A network error occurred : (query)');

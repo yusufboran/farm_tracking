@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
     final now = DateTime.now();
     finishDate = now;
     startDate = DateTime(now.year, now.month, now.day - 7);
+    query();
   }
 
   @override
@@ -112,13 +113,15 @@ class _HomePageState extends State<HomePage> {
     var data = {
       'start_date': startDate.toString(),
       'finish_date': finishDate.toString(),
-      'animal_id': "687433"
-      //   'animal_id': dropdownValue == "Hepsi" ? "687433" : dropdownValue.toString(),
+      // 'animal_id':
+      //     dropdownValue == "Hepsi" ? "Hepsi" : dropdownValue.toString(),
     };
+
     final response = await http.post(url, body: data);
 
     if (response.statusCode == 200) {
       var datauser = json.decode(response.body);
+      print(datauser);
       datauser.forEach(
         (e) {
           items.add(Milk(
@@ -130,6 +133,7 @@ class _HomePageState extends State<HomePage> {
       );
       setState(() {
         _items = items;
+        print(items);
       });
     } else {
       print('A network error occurred');

@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:haytek/entities/milk.dart';
+import 'package:haytek/screens/list_detail.dart';
 import 'package:haytek/screens/login_screen.dart';
+import 'package:haytek/widgets/button.dart';
 import 'package:haytek/widgets/datepicker.dart';
 import 'package:haytek/widgets/line_charts.dart';
 import 'package:haytek/widgets/list_field.dart';
@@ -72,38 +74,24 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           SizedBox(height: 20),
-          GestureDetector(
-            onTap: () => {
-              query(),
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 60),
-              padding: EdgeInsets.symmetric(vertical: 15),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: Color.fromRGBO(238, 238, 238, 1),
-                      offset: Offset(2, 4),
-                      blurRadius: 5,
-                      spreadRadius: 2)
-                ],
-                color: Color(0xff2c2772),
-              ),
-              child: Text(
-                'Ara',
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-            ),
-          ),
           LineChartPage(items: _items),
+          MyButton(func: press, text: "Listele")
+
           // Expanded(
           //   child: Text(_items.toString()),
           // ),
         ],
       ),
+    );
+  }
+
+  void press() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => SecondRoute(
+                products: List<String>.generate(500, (i) => "Product List: $i"),
+              )),
     );
   }
 

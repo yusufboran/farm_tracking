@@ -4,6 +4,7 @@ import 'package:crypt/crypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:haytek/screens/home_screen.dart';
+import 'package:haytek/screens/list_screen.dart';
 import 'package:haytek/widgets/custom_clipper.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,14 +17,11 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  late List<String> animal_list_items = [];
   bool isHidden = true;
   togglePasswordVisibility() => setState(() => isHidden = !isHidden);
 
   @override
-  void initState() {
-    animal_list_query();
-  }
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
@@ -110,12 +108,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 20),
                     GestureDetector(
                       onTap: () => {
-                        animal_list_query(),
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                HomePage(animal_list: animal_list_items),
+                            builder: (context) => HomePage(),
                           ),
                         ),
                         // login(username: username, password: password),
@@ -177,33 +173,13 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(animal_list: animal_list_items),
+            builder: (context) => HomePage(),
           ),
         );
       } else
         print("password is wrong");
     } else {
       print('A network error occurred : login');
-    }
-  }
-
-  void animal_list_query() async {
-    List<String> list = [];
-    var url = Uri.parse("http://10.220.62.48/mail/query.php");
-    var data = {'farm_id': "1"};
-    var response = await http.post(url, body: data);
-
-    if (response.statusCode == 200) {
-      List datauser = json.decode(response.body);
-
-      datauser.forEach((e) {
-        list.add(e["animal_id"].toString());
-      });
-      setState(() {
-        animal_list_items = list;
-      });
-    } else {
-      print('A network error occurred : (animal_list_query)');
     }
   }
 }

@@ -20,7 +20,7 @@ class AppTheme {
     colorScheme: ColorScheme.light(
       primary: Color(0xff2c2772),
       primaryVariant: Colors.white38,
-      secondary: Colors.yellow,
+      secondary: Color(0xff212121),
     ),
     cardTheme: CardTheme(
       color: Colors.teal,

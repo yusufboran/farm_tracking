@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:haytek/entities/milk.dart';
 import 'package:haytek/screens/list_screen.dart';
 import 'package:haytek/screens/login_screen.dart';
-import 'package:haytek/widgets/button.dart';
+import 'package:haytek/widgets/expansion.dart';
 import 'package:haytek/widgets/line_charts.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
-  List<String> animal_list;
-  HomePage({Key? key, required this.animal_list}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -32,7 +31,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    widget.animal_list.insert(0, "Hepsi");
     super.initState();
     final now = DateTime.now();
     finishDate = now;
@@ -64,22 +62,7 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 20),
           LineChartPage(items: milkQuantity),
           LineChartPage(items: milkConductivity),
-
-          MyButton(
-            func: press,
-            text: "Yüksek Verimli Hayvanlar",
-            items: widget.animal_list,
-          ),
-          MyButton(
-            func: press,
-            text: "Düşük Verimli Hayvanlar",
-            items: widget.animal_list,
-          ),
-          MyButton(
-            func: press,
-            text: "Anomali Görülen Hayvanlar",
-            items: widget.animal_list,
-          ),
+          MyExpansion(),
 
           // Expanded(
           //   child: Text(_items.toString()),
@@ -89,7 +72,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void press() {
+  void open() {
     Navigator.push(
       context,
       MaterialPageRoute(

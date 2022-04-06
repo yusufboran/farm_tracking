@@ -21,25 +21,21 @@ class _LineChartPageState extends State<LineChartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SfCartesianChart(
-        tooltipBehavior: _tooltipBehavior,
-        primaryXAxis: CategoryAxis(),
-        series: <ChartSeries>[
-          LineSeries<Milk, String>(
-            enableTooltip: true,
-            dataSource: widget.items,
-            xValueMapper: (Milk data, _) => data.dateTime,
-            yValueMapper: (Milk data, _) => data.conductivity,
-          )
-        ],
-      ),
+    return Column(
+      children: [
+        SfCartesianChart(
+          tooltipBehavior: _tooltipBehavior,
+          primaryXAxis: CategoryAxis(),
+          series: <ChartSeries>[
+            LineSeries<Milk, String>(
+                enableTooltip: true,
+                dataSource: widget.items,
+                xValueMapper: (Milk data, _) => data.dateTime,
+                yValueMapper: (Milk data, _) => data.varible,
+                color: Theme.of(context).colorScheme.primary)
+          ],
+        ),
+      ],
     );
   }
-}
-
-class ChartData {
-  ChartData(this.x, this.y);
-  final String x;
-  final double? y;
 }

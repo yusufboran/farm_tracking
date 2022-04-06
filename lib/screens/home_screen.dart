@@ -2,12 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:haytek/entities/milk.dart';
-import 'package:haytek/screens/list_detail.dart';
+import 'package:haytek/screens/list_screen.dart';
 import 'package:haytek/screens/login_screen.dart';
 import 'package:haytek/widgets/button.dart';
-import 'package:haytek/widgets/datepicker.dart';
 import 'package:haytek/widgets/line_charts.dart';
-import 'package:haytek/widgets/list_field.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
@@ -20,6 +18,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Milk> _items = [];
+  List<MilkQuantity> milkQuantity = [];
+  List<MilkConductivity> milkConductivity = [];
 
   late DateTime startDate;
   late DateTime finishDate;
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     final now = DateTime.now();
     finishDate = now;
-    startDate = DateTime(now.year, now.month, now.day - 7);
+    startDate = DateTime(now.year, now.month, now.day - 30);
     query();
   }
 
@@ -61,21 +61,25 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
-          SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              DatePicker(date: _startDate, showDate: startDate),
-              DatePicker(date: _finishDate, showDate: finishDate),
-              ListField(
-                  animal_list: widget.animal_list,
-                  setDropdownValue: setDropdownValue,
-                  getDropdownValue: getDropdownValue),
-            ],
-          ),
           SizedBox(height: 20),
-          LineChartPage(items: _items),
-          MyButton(func: press, text: "Listele")
+          LineChartPage(items: milkQuantity),
+          LineChartPage(items: milkConductivity),
+
+          MyButton(
+            func: press,
+            text: "Yüksek Verimli Hayvanlar",
+            items: widget.animal_list,
+          ),
+          MyButton(
+            func: press,
+            text: "Düşük Verimli Hayvanlar",
+            items: widget.animal_list,
+          ),
+          MyButton(
+            func: press,
+            text: "Anomali Görülen Hayvanlar",
+            items: widget.animal_list,
+          ),
 
           // Expanded(
           //   child: Text(_items.toString()),
@@ -89,7 +93,7 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => SecondRoute(
+          builder: (context) => ListScreen(
                 products: List<String>.generate(500, (i) => "Product List: $i"),
               )),
     );
@@ -112,11 +116,12 @@ class _HomePageState extends State<HomePage> {
       print(datauser);
       datauser.forEach(
         (e) {
-          items.add(Milk(
-              dateTime: e[
-                  "transaction_date"], //DateTime.parse(e["transaction_date"]),
-              milk_quantity: double.parse(e["milk_quantity"]),
-              conductivity: double.parse(e["conductivity"])));
+          milkQuantity.add(MilkQuantity(
+              dateTime: e["transaction_date"],
+              varible: double.parse(e["milk_quantity"])));
+          milkConductivity.add(MilkConductivity(
+              dateTime: e["transaction_date"],
+              varible: double.parse(e["conductivity"])));
         },
       );
       setState(() {

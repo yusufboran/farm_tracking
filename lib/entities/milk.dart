@@ -3,10 +3,16 @@ import 'dart:ffi';
 class Milk {
   Milk({
     required this.dateTime,
-    required this.milk_quantity,
-    required this.conductivity,
+    required this.varible,
   });
   final String dateTime;
-  final double milk_quantity;
-  final double conductivity;
+  final double varible;
+}
+
+class MilkQuantity extends Milk {
+  MilkQuantity({required super.dateTime, required super.varible});
+}
+
+class MilkConductivity extends Milk {
+  MilkConductivity({required super.dateTime, required super.varible});
 }

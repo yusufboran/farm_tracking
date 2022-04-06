@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class SecondRoute extends StatelessWidget {
+class ListScreen extends StatelessWidget {
   final List<String> products;
-  const SecondRoute({Key? key, required this.products}) : super(key: key);
+  const ListScreen({Key? key, required this.products}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

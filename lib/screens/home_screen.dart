@@ -29,12 +29,13 @@ class _HomePageState extends State<HomePage> {
   _startDate(value) => setState(() => startDate = value);
   _finishDate(value) => setState(() => finishDate = value);
 
+  int number_of_days = 30;
   @override
   void initState() {
     super.initState();
     final now = DateTime.now();
     finishDate = now;
-    startDate = DateTime(now.year, now.month, now.day - 30);
+    startDate = DateTime(now.year, now.month, now.day - number_of_days);
     query();
   }
 
@@ -60,8 +61,14 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         children: [
           SizedBox(height: 20),
-          LineChartPage(items: milkQuantity),
-          LineChartPage(items: milkConductivity),
+          LineChartPage(
+            items: milkQuantity,
+            text: "Son $number_of_days Günün Süt Verileri",
+          ),
+          LineChartPage(
+            items: milkConductivity,
+            text: "Son $number_of_days Günün İletkenlik Verileri",
+          ),
           MyExpansion(),
 
           // Expanded(

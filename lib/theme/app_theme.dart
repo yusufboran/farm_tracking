@@ -29,7 +29,9 @@ class AppTheme {
       color: Colors.white54,
     ),
     textTheme: TextTheme(
-      button: TextStyle(color: Color(0xff2c2772)),
+      button: TextStyle(
+        color: Color(0xff222222),
+      ),
     ),
   );
 

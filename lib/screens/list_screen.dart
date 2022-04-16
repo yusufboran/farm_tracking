@@ -47,13 +47,11 @@ class _ListScreenState extends State<ListScreen> {
         leftHandSideColBackgroundColor: Color(0xFFFFFFFF),
         rightHandSideColBackgroundColor: Color(0xFFFFFFFF),
         verticalScrollbarStyle: const ScrollbarStyle(
-          thumbColor: Colors.yellow,
           isAlwaysShown: true,
           thickness: 4.0,
           radius: Radius.circular(5.0),
         ),
         horizontalScrollbarStyle: const ScrollbarStyle(
-          thumbColor: Colors.red,
           isAlwaysShown: true,
           thickness: 4.0,
           radius: Radius.circular(5.0),
@@ -156,7 +154,7 @@ class _ListScreenState extends State<ListScreen> {
 
   Widget _generateFirstColumnRow(BuildContext context, int index) {
     return Container(
-      child: Text(widget.items[index].animalId.toString()),
+      child: myTextButton(widget.items[index].animalId),
       width: 100,
       height: 52,
       padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
@@ -222,5 +220,17 @@ class _ListScreenState extends State<ListScreen> {
       int bValue = b.movement;
       return (aValue - bValue) * (isAscending ? 1 : -1);
     });
+  }
+
+  myTextButton(value) {
+    return TextButton(
+      onPressed: () {
+        print(value);
+      },
+      child: Text(
+        value.toString(),
+        style: Theme.of(context).textTheme.button,
+      ),
+    );
   }
 }

@@ -19,6 +19,7 @@ dependencies:
   crypt:
   awesome_dropdown:
   syncfusion_flutter_charts:
+  horizontal_data_table:
   
 
 dev_dependencies:

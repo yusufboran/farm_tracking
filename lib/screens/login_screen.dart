@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:crypt/crypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:haytek/entities/data.dart';
 import 'package:haytek/screens/home_screen.dart';
-import 'package:haytek/screens/list_screen.dart';
 import 'package:haytek/widgets/custom_clipper.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,8 +20,13 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isHidden = true;
   togglePasswordVisibility() => setState(() => isHidden = !isHidden);
 
+  List<Data> high_yield = [];
+  List<Data> low_yield = [];
+  List<Data> anomaly_list = [];
   @override
-  void initState() {}
+  void initState() {
+    animalListQuery();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +116,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomePage(),
+                            builder: (context) => HomePage(
+                                anomaly_list: anomaly_list,
+                                high_yield: high_yield,
+                                low_yield: low_yield),
                           ),
                         ),
                         // login(username: username, password: password),
@@ -173,11 +181,58 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => HomePage(
+                anomaly_list: anomaly_list,
+                high_yield: high_yield,
+                low_yield: low_yield),
           ),
         );
       } else
         print("password is wrong");
+    } else {
+      print('A network error occurred : login');
+    }
+  }
+
+  void animalListQuery() async {
+    var url = Uri.parse("http://10.220.62.48/mail/animal-list.php");
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      var datauser = json.decode(response.body);
+
+      datauser["high_yield"].forEach(
+        (e) {
+          high_yield.add(Data(
+              dateTime: e["transaction_date"],
+              conductivity: double.parse(e["conductivity"]),
+              milk_quantity: double.parse(e["milk_quantity"]),
+              movement: e["movement"] != null ? int.parse(e["movement"]) : 0,
+              animalId: e["animal_id"]));
+        },
+      );
+
+      datauser["low_yield"].forEach(
+        (e) {
+          low_yield.add(Data(
+              dateTime: e["transaction_date"],
+              conductivity: double.parse(e["conductivity"]),
+              milk_quantity: double.parse(e["milk_quantity"]),
+              movement: e["movement"] != null ? int.parse(e["movement"]) : 0,
+              animalId: e["animal_id"]));
+        },
+      );
+
+      datauser["anomaly_list"].forEach(
+        (e) {
+          anomaly_list.add(Data(
+              dateTime: e["transaction_date"],
+              conductivity: double.parse(e["conductivity"]),
+              milk_quantity: double.parse(e["milk_quantity"]),
+              movement: e["movement"] != null ? int.parse(e["movement"]) : 0,
+              animalId: e["animal_id"]));
+        },
+      );
     } else {
       print('A network error occurred : login');
     }

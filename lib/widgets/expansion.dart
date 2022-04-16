@@ -16,15 +16,15 @@ List<ExpansionPanel> _getExpansionPanels(List<ListItem> _items, context) {
           ),
           GestureDetector(
               onTap: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ListScreen(
-                          products: List<String>.generate(
-                              500, (i) => "Product List: $i"),
-                        ),
-                      ),
-                    ),
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => ListScreen(
+                    //       products: List<String>.generate(
+                    //           500, (i) => "Product List: $i"),
+                    //     ),
+                    //   ),
+                    // ),
                     // login(username: username, password: password),
                   },
               child: Text(

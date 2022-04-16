@@ -4,8 +4,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class LineChartPage extends StatefulWidget {
   List<Milk> items;
-  String text;
-  LineChartPage({required this.items, required this.text});
+  LineChartPage({required this.items});
 
   @override
   State<LineChartPage> createState() => _LineChartPageState();
@@ -25,7 +24,6 @@ class _LineChartPageState extends State<LineChartPage> {
     return Column(
       children: [
         SfCartesianChart(
-          title: ChartTitle(text: widget.text),
           tooltipBehavior: _tooltipBehavior,
           primaryXAxis: CategoryAxis(),
           series: <ChartSeries>[

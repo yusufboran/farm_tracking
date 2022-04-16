@@ -1,41 +1,42 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:haytek/entities/data.dart';
 import 'package:haytek/entities/milk.dart';
 import 'package:haytek/screens/list_screen.dart';
 import 'package:haytek/screens/login_screen.dart';
-import 'package:haytek/widgets/expansion.dart';
 import 'package:haytek/widgets/line_charts.dart';
+import 'package:haytek/widgets/my_button.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  List<Data> high_yield = [];
+  List<Data> low_yield = [];
+  List<Data> anomaly_list = [];
+  HomePage(
+      {Key? key,
+      required this.high_yield,
+      required this.low_yield,
+      required this.anomaly_list})
+      : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Milk> _items = [];
   List<MilkQuantity> milkQuantity = [];
   List<MilkConductivity> milkConductivity = [];
 
   late DateTime startDate;
   late DateTime finishDate;
-  String dropdownValue = "Hepsi";
 
-  setDropdownValue(value) => setState(() => dropdownValue = value);
-  getDropdownValue() => dropdownValue;
-  _startDate(value) => setState(() => startDate = value);
-  _finishDate(value) => setState(() => finishDate = value);
-
-  int number_of_days = 30;
   @override
   void initState() {
     super.initState();
     final now = DateTime.now();
     finishDate = now;
-    startDate = DateTime(now.year, now.month, now.day - number_of_days);
+    startDate = DateTime(now.year, now.month, now.day - 30);
     query();
   }
 
@@ -61,15 +62,25 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         children: [
           SizedBox(height: 20),
-          LineChartPage(
-            items: milkQuantity,
-            text: "Son $number_of_days Günün Süt Verileri",
+          LineChartPage(items: milkQuantity),
+          LineChartPage(items: milkConductivity),
+
+          MyButton(
+            func: press,
+            text: "Yüksek Verimli Hayvanlar",
+            items: widget.high_yield,
           ),
-          LineChartPage(
-            items: milkConductivity,
-            text: "Son $number_of_days Günün İletkenlik Verileri",
+
+          MyButton(
+            func: press,
+            text: "Düşük Verimli Hayvanlar",
+            items: widget.low_yield,
           ),
-          MyExpansion(),
+          MyButton(
+            func: press,
+            text: "Anomali Görülen Hayvanlar",
+            items: widget.anomaly_list,
+          ),
 
           // Expanded(
           //   child: Text(_items.toString()),
@@ -79,13 +90,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void open() {
+  void press(items, text) {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => ListScreen(
-                products: List<String>.generate(500, (i) => "Product List: $i"),
-              )),
+        builder: (context) => ListScreen(items: items, text: text),
+      ),
     );
   }
 
@@ -95,15 +105,12 @@ class _HomePageState extends State<HomePage> {
     var data = {
       'start_date': startDate.toString(),
       'finish_date': finishDate.toString(),
-      'animal_id':
-          dropdownValue == "Hepsi" ? "Hepsi" : dropdownValue.toString(),
     };
 
     final response = await http.post(url, body: data);
 
     if (response.statusCode == 200) {
       var datauser = json.decode(response.body);
-      print(datauser);
       datauser.forEach(
         (e) {
           milkQuantity.add(MilkQuantity(
@@ -114,9 +121,6 @@ class _HomePageState extends State<HomePage> {
               varible: double.parse(e["conductivity"])));
         },
       );
-      setState(() {
-        _items = items;
-      });
     } else {
       print('A network error occurred : home screen query');
     }

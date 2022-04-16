@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: [
         const Locale('tr', 'TR'),
       ],
-      title: 'Haytek Süt Takip',
+      title: 'Haytek Süt Takip ',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       // darkTheme: AppTheme.darkTheme,

@@ -13,12 +13,12 @@ class HomePage extends StatefulWidget {
   List<Data> high_yield = [];
   List<Data> low_yield = [];
   List<Data> anomaly_list = [];
+  var lastDayValue;
   HomePage(
-      {Key? key,
-      required this.high_yield,
+      {required this.high_yield,
+      required this.lastDayValue,
       required this.low_yield,
-      required this.anomaly_list})
-      : super(key: key);
+      required this.anomaly_list});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -31,12 +31,14 @@ class _HomePageState extends State<HomePage> {
   late DateTime startDate;
   late DateTime finishDate;
 
+  int dayNum = 30;
   @override
   void initState() {
     super.initState();
+    print(widget.lastDayValue["last_day_average"]["milk_quantity"]);
     final now = DateTime.now();
     finishDate = now;
-    startDate = DateTime(now.year, now.month, now.day - 30);
+    startDate = DateTime(now.year, now.month, now.day - dayNum);
     query();
   }
 
@@ -61,30 +63,39 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
+          Container(
+            padding: EdgeInsets.only(top: 16),
+            child: Column(
+              children: [
+                Text("Son Günün Süt Ortalaması : " +
+                    widget.lastDayValue["last_day_average"]["milk_quantity"]),
+                Text("Son Günün En Çok Süt Veren Hayvan : " +
+                    widget.lastDayValue["last_highest_data"]["milk_quantity"]),
+                Text("Son Günün İletkenlik Ortalaması : " +
+                    widget.lastDayValue["last_day_average"]["conductivity"]),
+                Text("Son Günün En Çok Süt Veren Hayvan iletkenlik : " +
+                    widget.lastDayValue["last_highest_data"]["conductivity"]),
+              ],
+            ),
+          ),
           SizedBox(height: 20),
-          LineChartPage(items: milkQuantity, title: "Süt Miktarı"),
-          LineChartPage(items: milkConductivity, title: "Süt İletkenlik"),
-
+          LineChartPage(
+              items: milkQuantity, title: "Son $dayNum Günü Süt Ortalaması"),
+          LineChartPage(
+              items: milkConductivity,
+              title: "Son $dayNum Günü Süt İletkenlik Ortalaması"),
           MyButton(
-            func: press,
-            text: "Yüksek Verimli Hayvanlar",
-            items: widget.high_yield,
-          ),
-
+              func: press,
+              text: "Yüksek Verimli Hayvanlar",
+              items: widget.high_yield),
           MyButton(
-            func: press,
-            text: "Düşük Verimli Hayvanlar",
-            items: widget.low_yield,
-          ),
+              func: press,
+              text: "Düşük Verimli Hayvanlar",
+              items: widget.low_yield),
           MyButton(
-            func: press,
-            text: "Anomali Görülen Hayvanlar",
-            items: widget.anomaly_list,
-          ),
-
-          // Expanded(
-          //   child: Text(_items.toString()),
-          // ),
+              func: press,
+              text: "Anomali Görülen Hayvanlar",
+              items: widget.anomaly_list),
         ],
       ),
     );
@@ -101,7 +112,7 @@ class _HomePageState extends State<HomePage> {
 
   void query() async {
     List<Milk> items = [];
-    var url = Uri.parse("http://192.168.111.128/mail/query.php");
+    var url = Uri.parse("http://10.220.62.48/mail/query.php");
     var data = {
       'start_date': startDate.toString(),
       'finish_date': finishDate.toString(),

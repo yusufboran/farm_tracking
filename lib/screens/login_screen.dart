@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:crypt/crypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,9 +24,11 @@ class _LoginScreenState extends State<LoginScreen> {
   List<Data> high_yield = [];
   List<Data> low_yield = [];
   List<Data> anomaly_list = [];
+  var lastDayValue;
 
   @override
   void initState() {
+    lastDay();
     animalListQuery();
   }
 
@@ -96,7 +99,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             builder: (context) => HomePage(
                                 anomaly_list: anomaly_list,
                                 high_yield: high_yield,
-                                low_yield: low_yield),
+                                low_yield: low_yield,
+                                lastDayValue: lastDayValue),
                           ),
                         ),
                         // login(username: username, password: password),
@@ -149,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login({required username, required password}) async {
-    var url = Uri.parse("http://192.168.111.128/mail/query.php");
+    var url = Uri.parse("http://10.220.62.48/mail/query.php");
     var data = {'username': username.text};
     var pass_hash =
         Crypt.sha256(password.text, salt: 'abcdefghijklmnop').toString();
@@ -168,7 +172,8 @@ class _LoginScreenState extends State<LoginScreen> {
             builder: (context) => HomePage(
                 anomaly_list: anomaly_list,
                 high_yield: high_yield,
-                low_yield: low_yield),
+                low_yield: low_yield,
+                lastDayValue: lastDayValue),
           ),
         );
       } else
@@ -179,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void animalListQuery() async {
-    var url = Uri.parse("http://192.168.111.128/mail/animal-list.php");
+    var url = Uri.parse("http://10.220.62.48/mail/animal-list.php");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -209,14 +214,27 @@ class _LoginScreenState extends State<LoginScreen> {
 
       datauser["anomaly_list"].forEach(
         (e) {
-          anomaly_list.add(Data(
-              dateTime: e["transaction_date"],
-              conductivity: double.parse(e["conductivity"]),
-              milk_quantity: double.parse(e["milk_quantity"]),
-              movement: e["movement"] != null ? int.parse(e["movement"]) : 0,
-              animalId: e["animal_id"]));
+          anomaly_list.add(
+            Data(
+                dateTime: e["transaction_date"],
+                conductivity: double.parse(e["conductivity"]),
+                milk_quantity: double.parse(e["milk_quantity"]),
+                movement: e["movement"] != null ? int.parse(e["movement"]) : 0,
+                animalId: e["animal_id"]),
+          );
         },
       );
+    } else {
+      print('A network error occurred : login');
+    }
+  }
+
+  void lastDay() async {
+    var url = Uri.parse("http://10.220.62.48/mail/last-day-data.php");
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      var datauser = json.decode(response.body);
+      lastDayValue = datauser;
     } else {
       print('A network error occurred : login');
     }

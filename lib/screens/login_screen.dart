@@ -23,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   List<Data> high_yield = [];
   List<Data> low_yield = [];
   List<Data> anomaly_list = [];
+
   @override
   void initState() {
     animalListQuery();

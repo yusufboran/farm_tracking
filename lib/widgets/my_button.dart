@@ -25,7 +25,7 @@ class MyButton extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(5)),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                    color: Color.fromRGBO(238, 238, 238, 1),
+                    color: Colors.white,
                     offset: Offset(2, 4),
                     blurRadius: 5,
                     spreadRadius: 2)

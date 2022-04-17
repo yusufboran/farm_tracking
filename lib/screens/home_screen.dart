@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             icon: Icon(
-              Icons.more_vert,
+              Icons.exit_to_app,
             ),
             onPressed: () => Navigator.pushReplacement(
               context,
@@ -62,8 +62,8 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         children: [
           SizedBox(height: 20),
-          LineChartPage(items: milkQuantity),
-          LineChartPage(items: milkConductivity),
+          LineChartPage(items: milkQuantity, title: "Süt Miktarı"),
+          LineChartPage(items: milkConductivity, title: "Süt İletkenlik"),
 
           MyButton(
             func: press,
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
 
   void query() async {
     List<Milk> items = [];
-    var url = Uri.parse("http://10.220.62.48/mail/query.php");
+    var url = Uri.parse("http://192.168.111.128/mail/query.php");
     var data = {
       'start_date': startDate.toString(),
       'finish_date': finishDate.toString(),

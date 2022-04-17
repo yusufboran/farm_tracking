@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:crypt/crypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:haytek/entities/data.dart';
+import 'package:haytek/screens/forgot_password.dart';
 import 'package:haytek/screens/home_screen.dart';
-import 'package:haytek/widgets/custom_clipper.dart';
+import 'package:haytek/widgets/background.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
@@ -36,31 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
         height: height,
         child: Stack(
           children: <Widget>[
-            Positioned(
-              top: -MediaQuery.of(context).size.height * .15,
-              right: -MediaQuery.of(context).size.width * .4,
-              child: Container(
-                  child: Transform.rotate(
-                angle: -pi / 3.5,
-                child: ClipPath(
-                  clipper: ClipPainter(),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.9,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.white,
-                          Color(0xff14279B),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              )),
-            ),
+            Background(),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 40),
               child: SingleChildScrollView(
@@ -148,7 +124,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ForgotPasswordScreen(),
+                            ),
+                          );
+                        },
                         child: Text('Şifremi Unuttum',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w500)),
@@ -165,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login({required username, required password}) async {
-    var url = Uri.parse("http://10.220.62.48/mail/query.php");
+    var url = Uri.parse("http://192.168.111.128/mail/query.php");
     var data = {'username': username.text};
     var pass_hash =
         Crypt.sha256(password.text, salt: 'abcdefghijklmnop').toString();
@@ -195,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void animalListQuery() async {
-    var url = Uri.parse("http://10.220.62.48/mail/animal-list.php");
+    var url = Uri.parse("http://192.168.111.128/mail/animal-list.php");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

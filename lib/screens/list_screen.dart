@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:haytek/entities/milk.dart';
+import 'package:haytek/screens/animal_detail.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
+import 'package:http/http.dart' as http;
 
 class ListScreen extends StatefulWidget {
   List items;
@@ -10,6 +15,8 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
+  List<MilkQuantity> milkQuantity = [];
+  List<MilkConductivity> milkConductivity = [];
   HDTRefreshController _hdtRefreshController = HDTRefreshController();
 
   static const int sortAnimalId = 0;
@@ -154,7 +161,15 @@ class _ListScreenState extends State<ListScreen> {
 
   Widget _generateFirstColumnRow(BuildContext context, int index) {
     return Container(
-      child: myTextButton(widget.items[index].animalId),
+      child: TextButton(
+        onPressed: () {
+          query(widget.items[index].animalId);
+        },
+        child: Text(
+          widget.items[index].animalId.toString(),
+          style: Theme.of(context).textTheme.button,
+        ),
+      ),
       width: 100,
       height: 52,
       padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
@@ -222,14 +237,41 @@ class _ListScreenState extends State<ListScreen> {
     });
   }
 
-  myTextButton(value) {
-    return TextButton(
-      onPressed: () {
-        print(value);
-      },
-      child: Text(
-        value.toString(),
-        style: Theme.of(context).textTheme.button,
+  void query(value) async {
+    print(value + "fonsiyon çalıştı");
+    var url = Uri.parse("http://10.220.62.48/mail/query.php");
+    var data = {
+      'animal_id': value.toString(),
+    };
+    final response = await http.post(url, body: data);
+
+    if (response.statusCode == 200) {
+      var datauser = json.decode(response.body);
+      print(datauser);
+      datauser.forEach(
+        (e) {
+          milkQuantity.add(MilkQuantity(
+              dateTime: e["transaction_date"],
+              varible: double.parse(e["milk_quantity"])));
+          milkConductivity.add(MilkConductivity(
+              dateTime: e["transaction_date"],
+              varible: double.parse(e["conductivity"])));
+        },
+      );
+    } else {
+      print('A network error occurred : home screen query');
+    }
+    openScren(value);
+  }
+
+  openScren(value) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AnimalDetailScreen(
+            animalId: value,
+            milkConductivity: milkConductivity,
+            milkQuantity: milkQuantity),
       ),
     );
   }

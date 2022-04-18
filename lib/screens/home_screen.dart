@@ -10,12 +10,16 @@ import 'package:haytek/widgets/my_button.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
+  List<MilkQuantity> milkQuantity;
+  List<MilkConductivity> milkConductivity;
   List<Data> high_yield = [];
   List<Data> low_yield = [];
   List<Data> anomaly_list = [];
   var lastDayValue;
   HomePage(
-      {required this.high_yield,
+      {required this.milkQuantity,
+      required this.milkConductivity,
+      required this.high_yield,
       required this.lastDayValue,
       required this.low_yield,
       required this.anomaly_list});
@@ -25,21 +29,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<MilkQuantity> milkQuantity = [];
-  List<MilkConductivity> milkConductivity = [];
-
-  late DateTime startDate;
-  late DateTime finishDate;
-
-  int dayNum = 30;
   @override
   void initState() {
     super.initState();
     print(widget.lastDayValue["last_day_average"]["milk_quantity"]);
-    final now = DateTime.now();
-    finishDate = now;
-    startDate = DateTime(now.year, now.month, now.day - dayNum);
-    query();
   }
 
   @override
@@ -80,10 +73,10 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 20),
           LineChartPage(
-              items: milkQuantity, title: "Son $dayNum Günü Süt Ortalaması"),
+              items: widget.milkQuantity, title: "Son 30 Günü Süt Ortalaması"),
           LineChartPage(
-              items: milkConductivity,
-              title: "Son $dayNum Günü Süt İletkenlik Ortalaması"),
+              items: widget.milkConductivity,
+              title: "Son 30 Günü Süt İletkenlik Ortalaması"),
           MyButton(
               func: press,
               text: "Yüksek Verimli Hayvanlar",
@@ -108,32 +101,5 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => ListScreen(items: items, text: text),
       ),
     );
-  }
-
-  void query() async {
-    List<Milk> items = [];
-    var url = Uri.parse("http://10.220.62.48/mail/query.php");
-    var data = {
-      'start_date': startDate.toString(),
-      'finish_date': finishDate.toString(),
-    };
-
-    final response = await http.post(url, body: data);
-
-    if (response.statusCode == 200) {
-      var datauser = json.decode(response.body);
-      datauser.forEach(
-        (e) {
-          milkQuantity.add(MilkQuantity(
-              dateTime: e["transaction_date"],
-              varible: double.parse(e["milk_quantity"])));
-          milkConductivity.add(MilkConductivity(
-              dateTime: e["transaction_date"],
-              varible: double.parse(e["conductivity"])));
-        },
-      );
-    } else {
-      print('A network error occurred : home screen query');
-    }
   }
 }

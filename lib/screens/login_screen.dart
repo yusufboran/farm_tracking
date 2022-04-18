@@ -4,6 +4,7 @@ import 'package:crypt/crypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:haytek/entities/data.dart';
+import 'package:haytek/entities/milk.dart';
 import 'package:haytek/screens/forgot_password.dart';
 import 'package:haytek/screens/home_screen.dart';
 import 'package:haytek/widgets/background.dart';
@@ -15,6 +16,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  List<MilkQuantity> milkQuantity = [];
+  List<MilkConductivity> milkConductivity = [];
+
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
 
@@ -25,11 +29,16 @@ class _LoginScreenState extends State<LoginScreen> {
   List<Data> low_yield = [];
   List<Data> anomaly_list = [];
   var lastDayValue;
-
+  late DateTime startDate;
+  late DateTime finishDate;
+  int dayNum = 30;
   @override
   void initState() {
     lastDay();
     animalListQuery();
+    final now = DateTime.now();
+    finishDate = now;
+    startDate = DateTime(now.year, now.month, now.day - dayNum);
   }
 
   @override
@@ -93,16 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 20),
                     GestureDetector(
                       onTap: () => {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(
-                                anomaly_list: anomaly_list,
-                                high_yield: high_yield,
-                                low_yield: low_yield,
-                                lastDayValue: lastDayValue),
-                          ),
-                        ),
+                        query()
                         // login(username: username, password: password),
                       },
                       child: Container(
@@ -166,16 +166,6 @@ class _LoginScreenState extends State<LoginScreen> {
       print(datauser[0]["password"]);
 
       if (pass_hash == datauser[0]["password"]) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomePage(
-                anomaly_list: anomaly_list,
-                high_yield: high_yield,
-                low_yield: low_yield,
-                lastDayValue: lastDayValue),
-          ),
-        );
       } else
         print("password is wrong");
     } else {
@@ -238,5 +228,48 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       print('A network error occurred : login');
     }
+  }
+
+  void query() async {
+    List<Milk> items = [];
+    var url = Uri.parse("http://10.220.62.48/mail/query.php");
+    var data = {
+      'start_date': startDate.toString(),
+      'finish_date': finishDate.toString(),
+    };
+
+    final response = await http.post(url, body: data);
+
+    if (response.statusCode == 200) {
+      var datauser = json.decode(response.body);
+      datauser.forEach(
+        (e) {
+          milkQuantity.add(MilkQuantity(
+              dateTime: e["transaction_date"],
+              varible: double.parse(e["milk_quantity"])));
+          milkConductivity.add(MilkConductivity(
+              dateTime: e["transaction_date"],
+              varible: double.parse(e["conductivity"])));
+        },
+      );
+    } else {
+      print('A network error occurred : home screen query');
+    }
+    openScren();
+  }
+
+  openScren() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(
+            milkConductivity: milkConductivity,
+            milkQuantity: milkQuantity,
+            anomaly_list: anomaly_list,
+            high_yield: high_yield,
+            low_yield: low_yield,
+            lastDayValue: lastDayValue),
+      ),
+    );
   }
 }

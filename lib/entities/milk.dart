@@ -16,3 +16,7 @@ class MilkQuantity extends Milk {
 class MilkConductivity extends Milk {
   MilkConductivity({required super.dateTime, required super.varible});
 }
+
+class TrendValue extends Milk {
+  TrendValue({required super.dateTime, required super.varible});
+}

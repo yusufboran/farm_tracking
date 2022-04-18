@@ -17,6 +17,8 @@ class ListScreen extends StatefulWidget {
 class _ListScreenState extends State<ListScreen> {
   List<MilkQuantity> milkQuantity = [];
   List<MilkConductivity> milkConductivity = [];
+  List<TrendValue> trendQuantity = [];
+  List<TrendValue> trendConductivity = [];
   HDTRefreshController _hdtRefreshController = HDTRefreshController();
 
   static const int sortAnimalId = 0;
@@ -246,7 +248,7 @@ class _ListScreenState extends State<ListScreen> {
 
     if (response.statusCode == 200) {
       var datauser = json.decode(response.body);
-      datauser.forEach(
+      datauser["data"].forEach(
         (e) {
           milkQuantity.add(MilkQuantity(
               dateTime: e["transaction_date"],
@@ -254,6 +256,20 @@ class _ListScreenState extends State<ListScreen> {
           milkConductivity.add(MilkConductivity(
               dateTime: e["transaction_date"],
               varible: double.parse(e["conductivity"])));
+        },
+      );
+
+      datauser["trend"]["trend_milk"].forEach(
+        (e) {
+          trendQuantity.add(
+              TrendValue(dateTime: e["transaction_date"], varible: e["value"]));
+        },
+      );
+
+      datauser["trend"]["trend_conductivity"].forEach(
+        (e) {
+          trendConductivity.add(
+              TrendValue(dateTime: e["transaction_date"], varible: e["value"]));
         },
       );
     } else {
@@ -267,6 +283,8 @@ class _ListScreenState extends State<ListScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => AnimalDetailScreen(
+            trendConductivity: trendConductivity,
+            trendQuantity: trendQuantity,
             animalId: value,
             milkConductivity: milkConductivity,
             milkQuantity: milkQuantity),

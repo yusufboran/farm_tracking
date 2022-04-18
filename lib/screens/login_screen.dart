@@ -18,6 +18,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   List<MilkQuantity> milkQuantity = [];
   List<MilkConductivity> milkConductivity = [];
+  List<TrendValue> trendQuantity = [];
+  List<TrendValue> trendConductivity = [];
 
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -242,7 +244,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (response.statusCode == 200) {
       var datauser = json.decode(response.body);
-      datauser.forEach(
+      datauser["data"].forEach(
         (e) {
           milkQuantity.add(MilkQuantity(
               dateTime: e["transaction_date"],
@@ -250,6 +252,20 @@ class _LoginScreenState extends State<LoginScreen> {
           milkConductivity.add(MilkConductivity(
               dateTime: e["transaction_date"],
               varible: double.parse(e["conductivity"])));
+        },
+      );
+
+      datauser["trend"]["trend_milk"].forEach(
+        (e) {
+          trendQuantity.add(
+              TrendValue(dateTime: e["transaction_date"], varible: e["value"]));
+        },
+      );
+
+      datauser["trend"]["trend_conductivity"].forEach(
+        (e) {
+          trendConductivity.add(
+              TrendValue(dateTime: e["transaction_date"], varible: e["value"]));
         },
       );
     } else {
@@ -263,6 +279,8 @@ class _LoginScreenState extends State<LoginScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => HomePage(
+            trendConductivity: trendConductivity,
+            trendQuantity: trendQuantity,
             milkConductivity: milkConductivity,
             milkQuantity: milkQuantity,
             anomaly_list: anomaly_list,

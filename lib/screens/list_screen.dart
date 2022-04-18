@@ -238,7 +238,6 @@ class _ListScreenState extends State<ListScreen> {
   }
 
   void query(value) async {
-    print(value + "fonsiyon çalıştı");
     var url = Uri.parse("http://10.220.62.48/mail/query.php");
     var data = {
       'animal_id': value.toString(),
@@ -247,7 +246,6 @@ class _ListScreenState extends State<ListScreen> {
 
     if (response.statusCode == 200) {
       var datauser = json.decode(response.body);
-      print(datauser);
       datauser.forEach(
         (e) {
           milkQuantity.add(MilkQuantity(

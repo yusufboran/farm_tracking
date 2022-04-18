@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    print(widget.lastDayValue["last_day_average"]["milk_quantity"]);
   }
 
   @override

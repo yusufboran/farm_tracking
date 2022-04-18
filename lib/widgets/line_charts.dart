@@ -26,6 +26,10 @@ class _LineChartPageState extends State<LineChartPage> {
       children: [
         SfCartesianChart(
           title: ChartTitle(text: widget.title),
+          indicators: <TechnicalIndicators<Milk, DateTime>>[
+            AccumulationDistributionIndicator<Milk, DateTime>(
+                seriesName: 'HiloOpenClose')
+          ],
           tooltipBehavior: _tooltipBehavior,
           primaryXAxis: CategoryAxis(),
           series: <ChartSeries>[
@@ -33,6 +37,13 @@ class _LineChartPageState extends State<LineChartPage> {
                 name: widget.title,
                 enableTooltip: true,
                 dataSource: widget.items,
+                trendlines: <Trendline>[
+                  Trendline(
+                    type: TrendlineType.linear,
+                    forwardForecast: 2, //ileri doğru tahmin
+                    valueField: 'low',
+                  ),
+                ],
                 xValueMapper: (Milk data, _) => data.dateTime,
                 yValueMapper: (Milk data, _) => data.varible,
                 color: Theme.of(context).colorScheme.primary)

@@ -33,16 +33,10 @@ class _HomePageState extends State<HomePage> {
         title: Text("Haytek süt takip"),
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.exit_to_app,
-            ),
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LoginScreen(),
+              icon: Icon(
+                Icons.exit_to_app,
               ),
-            ),
-          ),
+              onPressed: () => exitPopup()),
         ],
       ),
       body: ListView(
@@ -92,6 +86,33 @@ class _HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(
         builder: (context) => ListScreen(items: items, text: text),
+      ),
+    );
+  }
+
+  exitPopup() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text('Çıkış Yap'),
+        content: Text('Çıkış yapmak istediğinize emin misiniz?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('İptal Et'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginScreen(),
+                ),
+              );
+            },
+            child: const Text('Evet'),
+          ),
+        ],
       ),
     );
   }

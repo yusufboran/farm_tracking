@@ -76,10 +76,20 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   void press(items, text) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LoginScreen(),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Awesome Snackbar!'),
+        action: SnackBarAction(
+          label: 'Action',
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LoginScreen(),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

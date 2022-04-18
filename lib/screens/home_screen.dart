@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:haytek/entities/data.dart';
 import 'package:haytek/entities/milk.dart';
@@ -7,7 +5,6 @@ import 'package:haytek/screens/list_screen.dart';
 import 'package:haytek/screens/login_screen.dart';
 import 'package:haytek/widgets/line_charts.dart';
 import 'package:haytek/widgets/my_button.dart';
-import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   List<MilkQuantity> milkQuantity;
@@ -29,11 +26,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,11 +52,13 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 Text("Son Günün Süt Ortalaması : " +
-                    widget.lastDayValue["last_day_average"]["milk_quantity"]),
+                    widget.lastDayValue["last_day_average"]["milk_quantity"]
+                        .substring(0, 5)),
                 Text("Son Günün En Çok Süt Veren Hayvan : " +
                     widget.lastDayValue["last_highest_data"]["milk_quantity"]),
                 Text("Son Günün İletkenlik Ortalaması : " +
-                    widget.lastDayValue["last_day_average"]["conductivity"]),
+                    widget.lastDayValue["last_day_average"]["conductivity"]
+                        .substring(0, 4)),
                 Text("Son Günün En Çok Süt Veren Hayvan iletkenlik : " +
                     widget.lastDayValue["last_highest_data"]["conductivity"]),
               ],

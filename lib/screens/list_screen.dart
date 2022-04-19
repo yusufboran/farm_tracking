@@ -50,16 +50,16 @@ class _ListScreenState extends State<ListScreen> {
         leftSideItemBuilder: _generateFirstColumnRow,
         rightSideItemBuilder: _generateRightHandSideColumnRow,
         itemCount: widget.items.length,
-        rowSeparatorWidget: const Divider(
+        rowSeparatorWidget: Divider(
           color: Colors.black54,
           height: 1.0,
-          thickness: 0.0,
+          thickness: 1.0,
         ),
         leftHandSideColBackgroundColor: Color(0xFFFFFFFF),
         rightHandSideColBackgroundColor: Color(0xFFFFFFFF),
         verticalScrollbarStyle: const ScrollbarStyle(
           isAlwaysShown: true,
-          thickness: 4.0,
+          thickness: 6.0,
           radius: Radius.circular(5.0),
         ),
         horizontalScrollbarStyle: const ScrollbarStyle(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   final darkblue = Color(0xff2c2772);
-  final white = Color(0xfffafafa);
+  final white = Color.fromARGB(255, 250, 250, 250);
   final gray = Color(0xfff3f3f4);
   final black = Color(0xff212121);
   final blue = Color(0xff14279B);
@@ -10,9 +10,10 @@ class AppTheme {
   AppTheme._();
   static final ThemeData lightTheme = ThemeData(
     primaryColor: Color(0xff2c2772),
-    scaffoldBackgroundColor: Color(0xffeeeeee),
+    scaffoldBackgroundColor: Color(0xfff5f5f5),
     appBarTheme: AppBarTheme(
       color: Color(0xff2c2772),
+      titleTextStyle: TextStyle(color: Colors.white, fontSize: 24),
       iconTheme: IconThemeData(
         color: Color(0xfffafafa),
       ),

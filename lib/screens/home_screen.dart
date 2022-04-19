@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:haytek/entities/data.dart';
 import 'package:haytek/entities/milk.dart';
 import 'package:haytek/screens/list_screen.dart';
@@ -39,7 +40,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Haytek süt takip"),
+        title: Text(
+          "Haytek süt takip",
+          style: Theme.of(context).appBarTheme.titleTextStyle,
+        ),
         actions: [
           IconButton(
               icon: Icon(
@@ -51,8 +55,9 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 16),
+            padding: EdgeInsets.only(top: 24, left: 24),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Son Günün Süt Ortalaması : " +
                     widget.lastDayValue["last_day_average"]["milk_quantity"]
@@ -67,7 +72,6 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          SizedBox(height: 20),
           LineChartPage(
               items: widget.milkQuantity,
               bottomTrend: widget.bottomTrendQuantity,
@@ -78,6 +82,9 @@ class _HomePageState extends State<HomePage> {
               bottomTrend: widget.bottomTrendConductivity,
               topTrend: widget.topTrendConductivity,
               title: "Son 30 Günü Süt İletkenlik Ortalaması"),
+          SizedBox(
+            height: 24,
+          ),
           MyButton(
               func: press,
               text: "Yüksek Verimli Hayvanlar",

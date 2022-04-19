@@ -5,10 +5,15 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 class LineChartPage extends StatefulWidget {
   List<Milk> items;
   String title;
-  List<Milk> trend;
+  List<Milk> topTrend;
+  List<Milk> bottomTrend;
 
-  LineChartPage(
-      {required this.items, required this.title, required this.trend});
+  LineChartPage({
+    required this.items,
+    required this.title,
+    required this.topTrend,
+    required this.bottomTrend,
+  });
 
   @override
   State<LineChartPage> createState() => _LineChartPageState();
@@ -40,13 +45,21 @@ class _LineChartPageState extends State<LineChartPage> {
                 name: widget.title,
                 enableTooltip: true,
                 dataSource: widget.items,
-                trendlines: <Trendline>[],
+                trendlines: <Trendline>[
+                  Trendline(type: TrendlineType.linear, color: Colors.blue)
+                ],
                 xValueMapper: (Milk data, _) => data.dateTime,
                 yValueMapper: (Milk data, _) => data.varible,
                 color: Theme.of(context).colorScheme.primary),
             LineSeries<Milk, String>(
                 enableTooltip: true,
-                dataSource: widget.trend,
+                dataSource: widget.topTrend,
+                xValueMapper: (Milk data, _) => data.dateTime,
+                yValueMapper: (Milk data, _) => data.varible,
+                color: Theme.of(context).colorScheme.error),
+            LineSeries<Milk, String>(
+                enableTooltip: true,
+                dataSource: widget.bottomTrend,
                 xValueMapper: (Milk data, _) => data.dateTime,
                 yValueMapper: (Milk data, _) => data.varible,
                 color: Theme.of(context).colorScheme.error)

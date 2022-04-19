@@ -18,8 +18,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   List<MilkQuantity> milkQuantity = [];
   List<MilkConductivity> milkConductivity = [];
-  List<TrendValue> trendQuantity = [];
-  List<TrendValue> trendConductivity = [];
+  List<TrendValue> topTrendQuantity = [];
+  List<TrendValue> topTrendConductivity = [];
+  List<TrendValue> bottomTrendQuantity = [];
+  List<TrendValue> bottomTrendConductivity = [];
 
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -255,16 +257,29 @@ class _LoginScreenState extends State<LoginScreen> {
         },
       );
 
-      datauser["trend"]["trend_milk"].forEach(
+      datauser["trend"]["trend_milk"]["bottom_trend"].forEach(
         (e) {
-          trendQuantity.add(
+          bottomTrendQuantity.add(
+              TrendValue(dateTime: e["transaction_date"], varible: e["value"]));
+        },
+      );
+      datauser["trend"]["trend_milk"]["top_trend"].forEach(
+        (e) {
+          topTrendQuantity.add(
               TrendValue(dateTime: e["transaction_date"], varible: e["value"]));
         },
       );
 
-      datauser["trend"]["trend_conductivity"].forEach(
+      datauser["trend"]["trend_conductivity"]["bottom_trend"].forEach(
         (e) {
-          trendConductivity.add(
+          bottomTrendConductivity.add(
+              TrendValue(dateTime: e["transaction_date"], varible: e["value"]));
+        },
+      );
+
+      datauser["trend"]["trend_conductivity"]["top_trend"].forEach(
+        (e) {
+          topTrendConductivity.add(
               TrendValue(dateTime: e["transaction_date"], varible: e["value"]));
         },
       );
@@ -279,8 +294,10 @@ class _LoginScreenState extends State<LoginScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => HomePage(
-            trendConductivity: trendConductivity,
-            trendQuantity: trendQuantity,
+            bottomTrendConductivity: bottomTrendConductivity,
+            bottomTrendQuantity: bottomTrendQuantity,
+            topTrendConductivity: topTrendConductivity,
+            topTrendQuantity: topTrendQuantity,
             milkConductivity: milkConductivity,
             milkQuantity: milkQuantity,
             anomaly_list: anomaly_list,

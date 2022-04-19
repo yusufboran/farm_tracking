@@ -9,8 +9,10 @@ import 'package:haytek/widgets/my_button.dart';
 class HomePage extends StatefulWidget {
   List<MilkQuantity> milkQuantity;
   List<MilkConductivity> milkConductivity;
-  List<TrendValue> trendQuantity = [];
-  List<TrendValue> trendConductivity = [];
+  List<TrendValue> topTrendQuantity = [];
+  List<TrendValue> topTrendConductivity = [];
+  List<TrendValue> bottomTrendQuantity = [];
+  List<TrendValue> bottomTrendConductivity = [];
   List<Data> high_yield = [];
   List<Data> low_yield = [];
   List<Data> anomaly_list = [];
@@ -19,8 +21,10 @@ class HomePage extends StatefulWidget {
   HomePage(
       {required this.milkQuantity,
       required this.milkConductivity,
-      required this.trendQuantity,
-      required this.trendConductivity,
+      required this.topTrendQuantity,
+      required this.topTrendConductivity,
+      required this.bottomTrendQuantity,
+      required this.bottomTrendConductivity,
       required this.high_yield,
       required this.lastDayValue,
       required this.low_yield,
@@ -66,11 +70,13 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 20),
           LineChartPage(
               items: widget.milkQuantity,
-              trend: widget.trendQuantity,
+              bottomTrend: widget.bottomTrendQuantity,
+              topTrend: widget.topTrendQuantity,
               title: "Son 30 Günü Süt Ortalaması"),
           LineChartPage(
               items: widget.milkConductivity,
-              trend: widget.trendConductivity,
+              bottomTrend: widget.bottomTrendConductivity,
+              topTrend: widget.topTrendConductivity,
               title: "Son 30 Günü Süt İletkenlik Ortalaması"),
           MyButton(
               func: press,

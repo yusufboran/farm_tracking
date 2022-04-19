@@ -8,14 +8,18 @@ class AnimalDetailScreen extends StatefulWidget {
   String animalId;
   List<MilkQuantity> milkQuantity = [];
   List<MilkConductivity> milkConductivity = [];
-  List<TrendValue> trendQuantity = [];
-  List<TrendValue> trendConductivity = [];
+  List<TrendValue> topTrendQuantity = [];
+  List<TrendValue> topTrendConductivity = [];
+  List<TrendValue> bottomTrendQuantity = [];
+  List<TrendValue> bottomTrendConductivity = [];
   AnimalDetailScreen({
     required this.animalId,
     required this.milkQuantity,
     required this.milkConductivity,
-    required this.trendQuantity,
-    required this.trendConductivity,
+    required this.topTrendConductivity,
+    required this.bottomTrendQuantity,
+    required this.topTrendQuantity,
+    required this.bottomTrendConductivity,
   });
   @override
   State<AnimalDetailScreen> createState() => _AnimalDetailScreenState();
@@ -32,11 +36,13 @@ class _AnimalDetailScreenState extends State<AnimalDetailScreen> {
         children: [
           LineChartPage(
               items: widget.milkQuantity,
-              trend: widget.trendQuantity,
+              bottomTrend: widget.bottomTrendQuantity,
+              topTrend: widget.topTrendQuantity,
               title: "Hayvana Ait Süt Verileri"),
           LineChartPage(
               items: widget.milkConductivity,
-              trend: widget.trendConductivity,
+              bottomTrend: widget.bottomTrendConductivity,
+              topTrend: widget.topTrendConductivity,
               title: "Hayvana Ait Sütün İletkenlik Verileri"),
         ],
       ),

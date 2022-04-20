@@ -53,12 +53,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             margin: EdgeInsets.symmetric(vertical: 10),
                             child: TextField(
                               controller: username,
-                              obscureText: false,
                               decoration: InputDecoration(
                                   hintText: "Kullanıcı Adı",
                                   prefixIcon: Icon(Icons.mail_outline),
                                   border: InputBorder.none,
-                                  fillColor: Color(0xfff3f3f4),
+                                  fillColor: Color(0xffe9e9e9),
                                   filled: true),
                             )),
                       ],

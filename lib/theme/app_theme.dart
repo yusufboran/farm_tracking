@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  final darkblue = Color(0xff2c2772);
+  final darkblue = Color(0xff292c7c);
   final white = Color.fromARGB(255, 250, 250, 250);
   final gray = Color(0xfff3f3f4);
   final black = Color(0xff212121);

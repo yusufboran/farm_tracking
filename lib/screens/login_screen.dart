@@ -38,8 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
   int dayNum = 30;
   @override
   void initState() {
-    lastDay();
-    animalListQuery();
     final now = DateTime.now();
     finishDate = now;
     startDate = DateTime(now.year, now.month, now.day - dayNum);
@@ -106,8 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 20),
                     GestureDetector(
                       onTap: () => {
-                        query()
-                        // login(username: username, password: password),
+                        login(/*username: username, password: password*/),
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
@@ -156,20 +153,20 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void login({required username, required password}) async {
-    var url = Uri.parse("http://10.220.62.48/mail/query.php");
-    var data = {'username': username.text};
-    var pass_hash =
-        Crypt.sha256(password.text, salt: 'abcdefghijklmnop').toString();
-    final response = await http.post(url, body: data);
+  void login(/*{required username, required password}*/) async {
+    var url = Uri.parse("http://10.220.62.48/mail/login.php");
+    var data = {'username': "yusuf"};
+    var pass_hash = "sifre";
 
+    final response = await http.post(url, body: data);
     if (response.statusCode == 200) {
       var datauser = json.decode(response.body);
-      print(pass_hash);
-
-      print(datauser[0]["password"]);
 
       if (pass_hash == datauser[0]["password"]) {
+        print("login successfull");
+        lastDay();
+        animalListQuery();
+        query();
       } else
         print("password is wrong");
     } else {
@@ -219,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
         },
       );
     } else {
-      print('A network error occurred : login');
+      print('A network error occurred : animalListQuery');
     }
   }
 
@@ -230,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
       var datauser = json.decode(response.body);
       lastDayValue = datauser;
     } else {
-      print('A network error occurred : login');
+      print('A network error occurred : lastDay');
     }
   }
 
@@ -284,7 +281,7 @@ class _LoginScreenState extends State<LoginScreen> {
         },
       );
     } else {
-      print('A network error occurred : home screen query');
+      print('A network error occurred : login screen query');
     }
     openScren();
   }

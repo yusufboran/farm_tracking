@@ -50,6 +50,7 @@ class _LineChartPageState extends State<LineChartPage> {
               trendlines: <Trendline>[
                 Trendline(type: TrendlineType.linear, color: Colors.grey)
               ],
+              width: 4,
               xValueMapper: (Milk data, _) => data.dateTime,
               yValueMapper: (Milk data, _) => data.varible,
               color: Color(0xff00793b),
@@ -57,12 +58,14 @@ class _LineChartPageState extends State<LineChartPage> {
             LineSeries<Milk, String>(
                 enableTooltip: true,
                 dataSource: widget.topTrend,
+                dashArray: <double>[5, 5],
                 xValueMapper: (Milk data, _) => data.dateTime,
                 yValueMapper: (Milk data, _) => data.varible,
                 color: Colors.purple),
             LineSeries<Milk, String>(
                 enableTooltip: true,
                 dataSource: widget.bottomTrend,
+                dashArray: <double>[5, 5],
                 xValueMapper: (Milk data, _) => data.dateTime,
                 yValueMapper: (Milk data, _) => data.varible,
                 color: Theme.of(context).colorScheme.error)

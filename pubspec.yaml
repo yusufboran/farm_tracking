@@ -20,7 +20,8 @@ dependencies:
   awesome_dropdown:
   syncfusion_flutter_charts:
   horizontal_data_table:
-  flutter_native_splash: 
+  flutter_native_splash:
+  cryptography:
 
 flutter_native_splash: 
   color: "#f5f5f5"

@@ -154,15 +154,19 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login(/*{required username, required password}*/) async {
-    var url = Uri.parse("http://10.220.62.48/mail/login.php");
-    var data = {'username': "yusuf"};
-    var pass_hash = "sifre";
+    var url = Uri.parse("http://tez.yusufboran.com/mail/login.php");
 
-    final response = await http.post(url, body: data);
+    var data = {
+      'username': "admin", // username.text.toString(),
+      'password': "01234",
+    };
+
+    var response = await http.post(url, body: data);
+    print("login button");
     if (response.statusCode == 200) {
       var datauser = json.decode(response.body);
 
-      if (pass_hash == datauser[0]["password"]) {
+      if (datauser.toString() == "true") {
         print("login successfull");
         lastDay();
         animalListQuery();
@@ -175,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void animalListQuery() async {
-    var url = Uri.parse("http://10.220.62.48/mail/animal-list.php");
+    var url = Uri.parse("http://tez.yusufboran.com/mail/animal-list.php");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -221,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void lastDay() async {
-    var url = Uri.parse("http://10.220.62.48/mail/last-day-data.php");
+    var url = Uri.parse("http://tez.yusufboran.com/mail/last-day-data.php");
     final response = await http.get(url);
     if (response.statusCode == 200) {
       var datauser = json.decode(response.body);
@@ -233,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void query() async {
     List<Milk> items = [];
-    var url = Uri.parse("http://10.220.62.48/mail/query.php");
+    var url = Uri.parse("http://tez.yusufboran.com/mail/query.php");
     var data = {
       'start_date': startDate.toString(),
       'finish_date': finishDate.toString(),

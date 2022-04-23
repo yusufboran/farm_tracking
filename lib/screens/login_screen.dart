@@ -1,6 +1,5 @@
 import 'dart:convert';
-import 'dart:ffi';
-import 'package:crypt/crypt.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:haytek/entities/data.dart';
@@ -43,6 +42,9 @@ class _LoginScreenState extends State<LoginScreen> {
     startDate = DateTime(now.year, now.month, now.day - dayNum);
   }
 
+  final _formPass = GlobalKey<FormState>();
+  final _formUser = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -67,36 +69,62 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: <Widget>[
                         Container(
                             margin: EdgeInsets.symmetric(vertical: 10),
-                            child: TextField(
-                              controller: username,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                  hintText: "Kullanıcı Adı",
-                                  prefixIcon: Icon(Icons.mail_outline),
-                                  border: InputBorder.none,
-                                  fillColor: Color(0xfff3f3f4),
-                                  filled: true),
+                            child: Form(
+                              key: _formUser,
+                              child: TextFormField(
+                                controller: username,
+                                obscureText: false,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Lütfen bir kullanıcı adınızı giriniz';
+                                  } else if (value.length < 6) {
+                                    return "Kullanıcı adı en az 6 karakter olmalıdır";
+                                  } else if (value.length > 15) {
+                                    return "Kullanıcı adı 15 karakterden uzun olmamalıdır";
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                    hintText: "Kullanıcı Adı",
+                                    prefixIcon: Icon(Icons.mail_outline),
+                                    border: InputBorder.none,
+                                    fillColor: Color(0xfff3f3f4),
+                                    filled: true),
+                              ),
                             )),
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 10),
-                          child: TextField(
-                            controller: password,
-                            obscureText: isHidden,
-                            decoration: InputDecoration(
-                                hintText: "Parola",
-                                prefixIcon: Icon(Icons.lock),
-                                suffixIcon: IconButton(
-                                  splashColor: Colors.transparent,
-                                  icon: isHidden
-                                      ? Icon(Icons.visibility_off)
-                                      : Icon(Icons.visibility),
-                                  onPressed: togglePasswordVisibility,
-                                ),
-                                border: InputBorder.none,
-                                fillColor: Color(0xfff3f3f4),
-                                filled: true),
-                            onEditingComplete: () =>
-                                TextInput.finishAutofillContext(),
+                          child: Form(
+                            key: _formPass,
+                            child: TextFormField(
+                              controller: password,
+                              obscureText: isHidden,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Lütfen bir parolanızı giriniz';
+                                } else if (value.length < 6) {
+                                  return "Şifre en az 6 karakter olmalıdır";
+                                } else if (value.length > 15) {
+                                  return "Şifre 15 karakterden uzun olmamalıdır";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  hintText: "Parola",
+                                  prefixIcon: Icon(Icons.lock),
+                                  suffixIcon: IconButton(
+                                    splashColor: Colors.transparent,
+                                    icon: isHidden
+                                        ? Icon(Icons.visibility_off)
+                                        : Icon(Icons.visibility),
+                                    onPressed: togglePasswordVisibility,
+                                  ),
+                                  border: InputBorder.none,
+                                  fillColor: Color(0xfff3f3f4),
+                                  filled: true),
+                              onEditingComplete: () =>
+                                  TextInput.finishAutofillContext(),
+                            ),
                           ),
                         )
                       ],
@@ -104,7 +132,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 20),
                     GestureDetector(
                       onTap: () => {
-                        login(/*username: username, password: password*/),
+                        if (_formPass.currentState!.validate() &&
+                            _formUser.currentState!.validate())
+                          {
+                            login(/*username: username, password: password*/),
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Giriş Yapılıyor')),
+                            ),
+                          }
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
@@ -154,15 +189,19 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login(/*{required username, required password}*/) async {
-    var url = Uri.parse("http://tez.yusufboran.com/mail/login.php");
+    // var url = Uri.parse("http://tez.yusufboran.com/mail/login.php");
+    var url = Uri.parse("http://10.220.62.48/mail/login.php");
+
+    var bytes1 = utf8.encode("01234"); // data being hashed
+    var hash_pass = sha256.convert(bytes1); // Hashing Process
+    print("Digest as hex string: $hash_pass");
 
     var data = {
       'username': "admin", // username.text.toString(),
-      'password': "01234",
+      'password': hash_pass.toString(),
     };
 
     var response = await http.post(url, body: data);
-    print("login button");
     if (response.statusCode == 200) {
       var datauser = json.decode(response.body);
 

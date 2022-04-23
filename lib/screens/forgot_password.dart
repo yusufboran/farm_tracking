@@ -45,12 +45,20 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: height * .45),
+                    SizedBox(height: height * .15),
+                    Image.asset(
+                      'assets/padlock.png',
+                      width: 200,
+                      height: 200,
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
+                            margin: EdgeInsets.symmetric(vertical: 20),
                             child: TextField(
                               controller: username,
                               decoration: InputDecoration(

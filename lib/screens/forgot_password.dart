@@ -50,6 +50,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       'assets/padlock.png',
                       width: 200,
                       height: 200,
+                      color: Colors.grey,
                     ),
                     SizedBox(
                       height: 40,

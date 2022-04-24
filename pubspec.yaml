@@ -22,7 +22,7 @@ dependencies:
   horizontal_data_table:
   flutter_native_splash:
   cryptography:
-
+  
 flutter_native_splash: 
   color: "#f5f5f5"
   image: assets/logo.png

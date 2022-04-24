@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Lütfen bir kullanıcı adınızı giriniz';
-                                  } else if (value.length < 6) {
+                                  } else if (value.length < 4) {
                                     return "Kullanıcı adı en az 6 karakter olmalıdır";
                                   } else if (value.length > 15) {
                                     return "Kullanıcı adı 15 karakterden uzun olmamalıdır";
@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Lütfen bir parolanızı giriniz';
-                                } else if (value.length < 6) {
+                                } else if (value.length < 4) {
                                   return "Şifre en az 6 karakter olmalıdır";
                                 } else if (value.length > 15) {
                                   return "Şifre 15 karakterden uzun olmamalıdır";
@@ -135,7 +135,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (_formPass.currentState!.validate() &&
                             _formUser.currentState!.validate())
                           {
-                            login(/*username: username, password: password*/),
+                            login(
+                                username: username.text,
+                                password: password.text),
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Giriş Yapılıyor')),
                             ),
@@ -188,16 +190,16 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void login(/*{required username, required password}*/) async {
-    // var url = Uri.parse("http://tez.yusufboran.com/mail/login.php");
-    var url = Uri.parse("http://10.220.62.48/mail/login.php");
+  void login({required username, required password}) async {
+    var url = Uri.parse("http://tez.yusufboran.com/mail/login.php");
+    //10.220.62.48
 
-    var bytes1 = utf8.encode("01234"); // data being hashed
+    var bytes1 = utf8.encode(password); // data being hashed
     var hash_pass = sha256.convert(bytes1); // Hashing Process
     print("Digest as hex string: $hash_pass");
 
     var data = {
-      'username': "admin", // username.text.toString(),
+      'username': username.toString(), // username.text.toString(),
       'password': hash_pass.toString(),
     };
 

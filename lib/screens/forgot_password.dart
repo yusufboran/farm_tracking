@@ -27,6 +27,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   icon: Icon(
                     Icons.keyboard_backspace,
                     color: Theme.of(context).colorScheme.primary,
+                    size: 36,
                   ),
                   onPressed: () => Navigator.pushReplacement(
                     context,

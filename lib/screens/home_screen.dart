@@ -54,6 +54,15 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
+          Positioned(
+            top: MediaQuery.of(context).size.height * .08,
+            right: MediaQuery.of(context).size.width * .87,
+            child: Image.asset(
+              'assets/haytek_logo_dark_blue.png',
+              width: 100,
+              height: 100,
+            ),
+          ),
           Container(
             padding: EdgeInsets.only(top: 24, left: 24),
             child: Column(

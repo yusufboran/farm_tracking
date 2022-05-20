@@ -242,7 +242,7 @@ class _ListScreenState extends State<ListScreen> {
   }
 
   void query(value) async {
-    var url = Uri.parse("http://tez.yusufboran.com/mail/query.php");
+    var url = Uri.parse("http://proje.yusufboran.com/mail/query.php");
     var data = {
       'animal_id': value.toString(),
     };

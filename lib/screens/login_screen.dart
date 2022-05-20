@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var lastDayValue;
   late DateTime startDate;
   late DateTime finishDate;
-  int dayNum = 30;
+  int dayNum = 180;
   @override
   void initState() {
     final now = DateTime.now();
@@ -48,6 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    bool passflag;
+    bool userflag;
     return Scaffold(
       body: Container(
         height: height,
@@ -132,8 +134,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 20),
                     GestureDetector(
                       onTap: () => {
-                        if (_formPass.currentState!.validate() &&
-                            _formUser.currentState!.validate())
+                        passflag = false,
+                        userflag = false,
+                        if (_formPass.currentState!.validate())
+                          {
+                            passflag = true,
+                          }
+                        else
+                          {print("_formPass.currentState true")},
+                        if (_formUser.currentState!.validate())
+                          {
+                            userflag = true,
+                          }
+                        else
+                          {print("_formUser.currentState true")},
+                        if (passflag && userflag)
                           {
                             login(
                                 username: username.text,
@@ -191,15 +206,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login({required username, required password}) async {
-    var url = Uri.parse("http://tez.yusufboran.com/mail/login.php");
-    //10.220.62.48
+    var url = Uri.parse("http://proje.yusufboran.com/mail/login.php");
 
     var bytes1 = utf8.encode(password); // data being hashed
     var hash_pass = sha256.convert(bytes1); // Hashing Process
     print("Digest as hex string: $hash_pass");
 
     var data = {
-      'username': username.toString(), // username.text.toString(),
+      'username': username.toString(),
       'password': hash_pass.toString(),
     };
 
@@ -220,7 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void animalListQuery() async {
-    var url = Uri.parse("http://tez.yusufboran.com/mail/animal-list.php");
+    var url = Uri.parse("http://proje.yusufboran.com/mail/animal-list.php");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -266,7 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void lastDay() async {
-    var url = Uri.parse("http://tez.yusufboran.com/mail/last-day-data.php");
+    var url = Uri.parse("http://proje.yusufboran.com/mail/last-day-data.php");
     final response = await http.get(url);
     if (response.statusCode == 200) {
       var datauser = json.decode(response.body);
@@ -278,7 +292,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void query() async {
     List<Milk> items = [];
-    var url = Uri.parse("http://tez.yusufboran.com/mail/query.php");
+    var url = Uri.parse("http://proje.yusufboran.com/mail/query.php");
     var data = {
       'start_date': startDate.toString(),
       'finish_date': finishDate.toString(),

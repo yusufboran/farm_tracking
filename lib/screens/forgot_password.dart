@@ -38,7 +38,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
               ),
             ),
-            Background(),
+            background(context),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 40),
               child: SingleChildScrollView(
@@ -73,7 +73,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       ],
                     ),
                     SizedBox(height: 20),
-                    MyButton(func: press, text: "Şifreyi Yenile", items: null),
+                    myButton(
+                        func: press,
+                        text: "Şifreyi Yenile",
+                        items: null,
+                        context: context),
                   ],
                 ),
               ),

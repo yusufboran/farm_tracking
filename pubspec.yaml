@@ -21,6 +21,7 @@ dependencies:
   cryptography:
   shared_preferences:
   horizontal_data_table:
+  syncfusion_flutter_gauges:
   
 flutter_native_splash: 
   color: "#f5f5f5"

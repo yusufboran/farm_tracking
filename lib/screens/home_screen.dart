@@ -62,25 +62,25 @@ class _HomePageState extends State<HomePage> {
             children: [
               Column(
                 children: [
-                  IconColum(
+                  IconWidget(
                       widget.lastDayValue["last_day_average"]["milk_quantity"]
                           .substring(0, 5),
                       "ortalama süt.(lt)",
                       "farm_milk"),
-                  IconColum(
+                  IconWidget(
                       widget.lastDayValue["last_day_average"]["conductivity"]
                           .substring(0, 4),
-                      "Ortalama iletkenlik()",
+                      "Ortalama iletkenlik(sg)",
                       "farm_elect"),
                 ],
               ),
               Column(
                 children: [
-                  IconColum(
+                  IconWidget(
                       widget.lastDayValue["last_highest_data"]["milk_quantity"],
-                      "Hayvan iletkenlik",
+                      "Hayvan iletkenlik(sg)",
                       "cow_elec"),
-                  IconColum(
+                  IconWidget(
                       widget.lastDayValue["last_highest_data"]["conductivity"],
                       "En Verimili hayvan(lt)",
                       "cow_milk"),
@@ -101,18 +101,21 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 24,
           ),
-          MyButton(
+          myButton(
               func: press,
               text: "Anomali Görülen Hayvanlar",
-              items: widget.anomaly_list),
-          MyButton(
+              items: widget.anomaly_list,
+              context: context),
+          myButton(
               func: press,
               text: "Yüksek Verimli Hayvanlar",
-              items: widget.high_yield),
-          MyButton(
+              items: widget.high_yield,
+              context: context),
+          myButton(
               func: press,
               text: "Düşük Verimli Hayvanlar",
-              items: widget.low_yield),
+              items: widget.low_yield,
+              context: context),
         ],
       ),
     );
@@ -154,7 +157,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget IconColum(value, text, icon) {
+  Widget IconWidget(value, text, icon) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [

@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
         height: height,
         child: Stack(
           children: <Widget>[
-            Background(),
+            background(context),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 40),
               child: SingleChildScrollView(

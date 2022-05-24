@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Haytek süt takip",
+          "Haytek Süt Takip",
           style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
         actions: [
@@ -54,30 +54,25 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
-          Positioned(
-            top: MediaQuery.of(context).size.height * .08,
-            right: MediaQuery.of(context).size.width * .87,
-            child: Image.asset(
-              'assets/haytek_logo_dark_blue.png',
-              width: 100,
-              height: 100,
-            ),
-          ),
           Container(
             padding: EdgeInsets.only(top: 24, left: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("Son Günün Süt Ortalaması : " +
+                IconColum(
                     widget.lastDayValue["last_day_average"]["milk_quantity"]
-                        .substring(0, 5)),
-                Text("Son Günün En Çok Süt Veren Hayvan : " +
-                    widget.lastDayValue["last_highest_data"]["milk_quantity"]),
-                Text("Son Günün İletkenlik Ortalaması : " +
+                        .substring(0, 5),
+                    "farm_milk"),
+                IconColum(
+                    widget.lastDayValue["last_highest_data"]["conductivity"],
+                    "cow_milk"),
+                IconColum(
+                    widget.lastDayValue["last_highest_data"]["milk_quantity"],
+                    "farm_elect"),
+                IconColum(
                     widget.lastDayValue["last_day_average"]["conductivity"]
-                        .substring(0, 4)),
-                Text("Son Günün En Çok Süt Veren Hayvan iletkenlik : " +
-                    widget.lastDayValue["last_highest_data"]["conductivity"]),
+                        .substring(0, 4),
+                    "cow_elec"),
               ],
             ),
           ),
@@ -96,16 +91,16 @@ class _HomePageState extends State<HomePage> {
           ),
           MyButton(
               func: press,
+              text: "Anomali Görülen Hayvanlar",
+              items: widget.anomaly_list),
+          MyButton(
+              func: press,
               text: "Yüksek Verimli Hayvanlar",
               items: widget.high_yield),
           MyButton(
               func: press,
               text: "Düşük Verimli Hayvanlar",
               items: widget.low_yield),
-          MyButton(
-              func: press,
-              text: "Anomali Görülen Hayvanlar",
-              items: widget.anomaly_list),
         ],
       ),
     );
@@ -144,6 +139,23 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget IconColum(value, icon) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Image.asset(
+          'assets/icons/$icon.png',
+          width: 70,
+          height: 50,
+        ),
+        Text(
+          value,
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 }

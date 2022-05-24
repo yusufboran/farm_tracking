@@ -54,27 +54,39 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
-          Container(
-            padding: EdgeInsets.only(top: 24, left: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconColum(
-                    widget.lastDayValue["last_day_average"]["milk_quantity"]
-                        .substring(0, 5),
-                    "farm_milk"),
-                IconColum(
-                    widget.lastDayValue["last_highest_data"]["conductivity"],
-                    "cow_milk"),
-                IconColum(
-                    widget.lastDayValue["last_highest_data"]["milk_quantity"],
-                    "farm_elect"),
-                IconColum(
-                    widget.lastDayValue["last_day_average"]["conductivity"]
-                        .substring(0, 4),
-                    "cow_elec"),
-              ],
-            ),
+          SizedBox(
+            height: 12,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  IconColum(
+                      widget.lastDayValue["last_day_average"]["milk_quantity"]
+                          .substring(0, 5),
+                      "ortalama süt.(lt)",
+                      "farm_milk"),
+                  IconColum(
+                      widget.lastDayValue["last_day_average"]["conductivity"]
+                          .substring(0, 4),
+                      "Ortalama iletkenlik()",
+                      "farm_elect"),
+                ],
+              ),
+              Column(
+                children: [
+                  IconColum(
+                      widget.lastDayValue["last_highest_data"]["milk_quantity"],
+                      "Hayvan iletkenlik",
+                      "cow_elec"),
+                  IconColum(
+                      widget.lastDayValue["last_highest_data"]["conductivity"],
+                      "En Verimili hayvan(lt)",
+                      "cow_milk"),
+                ],
+              ),
+            ],
           ),
           LineChartPage(
               items: widget.milkQuantity,
@@ -142,18 +154,26 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget IconColum(value, icon) {
+  Widget IconColum(value, text, icon) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Image.asset(
-          'assets/icons/$icon.png',
-          width: 70,
-          height: 50,
+        Row(
+          children: [
+            Image.asset(
+              'assets/icons/$icon.png',
+              width: 70,
+              height: 50,
+            ),
+            Text(
+              value,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
         Text(
-          value,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          text,
+          style: TextStyle(fontSize: 10),
         ),
       ],
     );

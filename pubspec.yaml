@@ -16,12 +16,12 @@ dependencies:
 
   http: 
   crypt:
-  syncfusion_flutter_charts:
-  flutter_native_splash:
+  syncfusion_flutter_charts: ^20.1.57
+  flutter_native_splash: ^2.2.1
   cryptography:
   shared_preferences:
   horizontal_data_table:
-  syncfusion_flutter_gauges:
+  syncfusion_flutter_gauges: ^20.1.57
   
 flutter_native_splash: 
   color: "#f5f5f5"

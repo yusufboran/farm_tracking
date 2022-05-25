@@ -4,6 +4,7 @@ import 'package:haytek/entities/data.dart';
 import 'package:haytek/entities/milk.dart';
 import 'package:haytek/screens/list_screen.dart';
 import 'package:haytek/screens/login_screen.dart';
+import 'package:haytek/widgets/gauge.dart';
 import 'package:haytek/widgets/line_charts.dart';
 import 'package:haytek/widgets/my_button.dart';
 
@@ -55,38 +56,44 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         children: [
           SizedBox(
-            height: 12,
+            height: 16,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                children: [
-                  IconWidget(
-                      widget.lastDayValue["last_day_average"]["milk_quantity"]
-                          .substring(0, 5),
-                      "ortalama süt.(lt)",
-                      "farm_milk"),
-                  IconWidget(
-                      widget.lastDayValue["last_day_average"]["conductivity"]
-                          .substring(0, 4),
-                      "Ortalama iletkenlik(sg)",
-                      "farm_elect"),
-                ],
-              ),
-              Column(
-                children: [
-                  IconWidget(
-                      widget.lastDayValue["last_highest_data"]["milk_quantity"],
-                      "Hayvan iletkenlik(sg)",
-                      "cow_elec"),
-                  IconWidget(
-                      widget.lastDayValue["last_highest_data"]["conductivity"],
-                      "En Verimili hayvan(lt)",
-                      "cow_milk"),
-                ],
-              ),
-            ],
+          Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                Text("data"),
+                IconWidget(
+                    widget.lastDayValue["last_day_average"]["milk_quantity"]
+                        .substring(0, 5),
+                    "ortalama süt.(lt)",
+                    "milk"),
+                IconWidget(
+                    widget.lastDayValue["last_day_average"]["conductivity"]
+                        .substring(0, 4),
+                    "Ortalama iletkenlik(sg)",
+                    "conductivity"),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                Text("data"),
+                IconWidget(
+                    widget.lastDayValue["last_highest_data"]["milk_quantity"],
+                    "Hayvan iletkenlik(sg)",
+                    "best-animal-milk"),
+                IconWidget(
+                    widget.lastDayValue["last_highest_data"]["conductivity"],
+                    "En Verimili hayvan(lt)",
+                    "best-animal-conductivity"),
+              ],
+            ),
           ),
           LineChartPage(
               items: widget.milkQuantity,
@@ -158,26 +165,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget IconWidget(value, text, icon) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Row(
-          children: [
-            Image.asset(
-              'assets/icons/$icon.png',
-              width: 70,
-              height: 50,
-            ),
-            Text(
-              value,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-          ],
+        Image.asset(
+          'assets/icons/$icon.png',
+          width: 70,
+          height: 50,
         ),
         Text(
-          text,
-          style: TextStyle(fontSize: 10),
+          value,
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
+        Gauge(value)
       ],
     );
   }

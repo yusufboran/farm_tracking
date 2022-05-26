@@ -250,6 +250,7 @@ class _ListScreenState extends State<ListScreen> {
 
     if (response.statusCode == 200) {
       var datauser = json.decode(response.body);
+      print(datauser);
       datauser["data"].forEach(
         (e) {
           milkQuantity.add(MilkQuantity(

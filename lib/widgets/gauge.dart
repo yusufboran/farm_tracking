@@ -33,7 +33,7 @@ Widget Gauge(value, icon, listValue, listColor, double maxGauseVal) {
                   markerType: MarkerType.circle,
                   enableDragging: true,
                   color: Colors.indigo),
-              RangePointer(value: 60, dashArray: <double>[1, 14]),
+              RangePointer(value: maxGauseVal, dashArray: <double>[1, 14]),
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(

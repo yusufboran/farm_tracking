@@ -55,43 +55,49 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
-          SizedBox(
-            height: 16,
-          ),
           Container(
+            margin: EdgeInsets.only(top: 16),
             color: Colors.white,
             child: Column(
               children: [
-                Text("data"),
-                IconWidget(
-                    widget.lastDayValue["last_day_average"]["milk_quantity"]
-                        .substring(0, 5),
-                    "ortalama süt.(lt)",
-                    "milk"),
-                IconWidget(
-                    widget.lastDayValue["last_day_average"]["conductivity"]
-                        .substring(0, 4),
-                    "Ortalama iletkenlik(sg)",
-                    "conductivity"),
+                Text("Son Günü Ortalama Verileri"),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Gauge(
+                        widget.lastDayValue["last_day_average"]["milk_quantity"]
+                            .substring(0, 5),
+                        "milk"),
+                    Gauge(
+                        widget.lastDayValue["last_day_average"]["conductivity"]
+                            .substring(0, 4),
+                        "conductivity")
+                  ],
+                ),
               ],
             ),
           ),
-          SizedBox(
-            height: 16,
-          ),
           Container(
+            margin: EdgeInsets.only(top: 16),
             color: Colors.white,
             child: Column(
               children: [
-                Text("data"),
-                IconWidget(
-                    widget.lastDayValue["last_highest_data"]["milk_quantity"],
-                    "Hayvan iletkenlik(sg)",
-                    "best-animal-milk"),
-                IconWidget(
-                    widget.lastDayValue["last_highest_data"]["conductivity"],
-                    "En Verimili hayvan(lt)",
-                    "best-animal-conductivity"),
+                Text("Son Günü Ortalama Verileri"),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Gauge(
+                        widget.lastDayValue["last_highest_data"]
+                            ["milk_quantity"],
+                        "best-animal-milk"),
+                    Gauge(
+                        widget.lastDayValue["last_highest_data"]
+                            ["conductivity"],
+                        "best-animal-conductivity")
+                  ],
+                ),
               ],
             ),
           ),
@@ -161,24 +167,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget IconWidget(value, text, icon) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Image.asset(
-          'assets/icons/$icon.png',
-          width: 70,
-          height: 50,
-        ),
-        Text(
-          value,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        Gauge(value)
-      ],
     );
   }
 }

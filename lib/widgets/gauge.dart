@@ -1,52 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-Widget Gauge(value) {
-  return Container(
-    width: 130,
-    height: 130,
-    child: SfRadialGauge(
-      enableLoadingAnimation: true,
-      animationDuration: 2000,
-      axes: <RadialAxis>[
-        RadialAxis(
-          minimum: 0,
-          maximum: 10,
-          ranges: <GaugeRange>[
-            GaugeRange(
-              startValue: 0,
-              endValue: 10,
-              gradient: SweepGradient(
-                startAngle: 0.0,
-                endAngle: 10,
-                colors: <Color>[
-                  Color(0xFFEA4335), // blue
-                  Colors.yellow, // blue
-                  Color(0xFF34A853), // green
-                  Color(0xFF34A853), // green
-                  Colors.yellow, // green
-                  Color(0xFFEA4335), // red
+Widget Gauge(value, icon) {
+  return Column(
+    children: [
+      Container(
+        width: 190,
+        height: 190,
+        child: SfRadialGauge(
+          enableLoadingAnimation: true,
+          animationDuration: 2000,
+          axes: <RadialAxis>[
+            RadialAxis(
+                minimum: 0,
+                maximum: 10,
+                labelOffset: 0.07,
+                offsetUnit: GaugeSizeUnit.factor,
+                showTicks: false,
+                ranges: <GaugeRange>[
+                  GaugeRange(
+                    startValue: 0,
+                    endValue: 10,
+                    gradient: SweepGradient(
+                      startAngle: 0.0,
+                      endAngle: 10,
+                      colors: <Color>[
+                        Color(0xFFff5d75), // blue f5d033
+                        Color(0xFFf5d033), // blue
+                        Color(0xFF77dd77), // green
+                        Color(0xFF77dd77), // green
+                        Color(0xFFf5d033),
+                        Color(0xFFff5d75), // red
+                      ],
+                      stops: <double>[0, 0.35, 0.45, 0.55, 0.65, 1],
+                    ),
+                  ),
                 ],
-                stops: <double>[0, 0.35, 0.45, 0.55, 0.65, 1],
-              ),
-            ),
+                pointers: <GaugePointer>[
+                  MarkerPointer(
+                      value: double.parse(value),
+                      markerType: MarkerType.circle,
+                      enableDragging: true,
+                      color: Colors.indigo),
+                ],
+                annotations: <GaugeAnnotation>[
+                  GaugeAnnotation(
+                      axisValue: 5,
+                      positionFactor: 0.5,
+                      horizontalAlignment: GaugeAlignment.center,
+                      verticalAlignment: GaugeAlignment.center,
+                      widget: Text(
+                        value,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      )),
+                  GaugeAnnotation(
+                    angle: 90,
+                    positionFactor: 0.5,
+                    widget: Image.asset(
+                      'assets/icons/$icon.png',
+                      width: 70,
+                      height: 50,
+                    ),
+                  )
+                ])
           ],
-          pointers: <GaugePointer>[
-            NeedlePointer(
-              value: double.parse(value),
-              needleStartWidth: 0,
-              needleEndWidth: 5,
-              needleColor: Colors.black,
-              knobStyle: KnobStyle(
-                  color: Colors.black,
-                  borderColor: Colors.black,
-                  knobRadius: 0.06,
-                  borderWidth: 0.04),
-              tailStyle: TailStyle(color: Colors.white, width: 5, length: 0.15),
-            )
-          ],
-        )
-      ],
-    ),
+        ),
+      ),
+    ],
   );
 }

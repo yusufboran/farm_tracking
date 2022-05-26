@@ -4,7 +4,8 @@ import 'package:haytek/entities/data.dart';
 import 'package:haytek/entities/milk.dart';
 import 'package:haytek/screens/list_screen.dart';
 import 'package:haytek/screens/login_screen.dart';
-import 'package:haytek/widgets/gauge.dart';
+
+import 'package:haytek/widgets/last_day_widget.dart';
 import 'package:haytek/widgets/line_charts.dart';
 import 'package:haytek/widgets/my_button.dart';
 
@@ -55,52 +56,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
-          Container(
-            margin: EdgeInsets.only(top: 16),
-            color: Colors.white,
-            child: Column(
-              children: [
-                Text("Son Günü Ortalama Verileri"),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Gauge(
-                        widget.lastDayValue["last_day_average"]["milk_quantity"]
-                            .substring(0, 5),
-                        "milk"),
-                    Gauge(
-                        widget.lastDayValue["last_day_average"]["conductivity"]
-                            .substring(0, 4),
-                        "conductivity")
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 16),
-            color: Colors.white,
-            child: Column(
-              children: [
-                Text("Son Günü Ortalama Verileri"),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Gauge(
-                        widget.lastDayValue["last_highest_data"]
-                            ["milk_quantity"],
-                        "best-animal-milk"),
-                    Gauge(
-                        widget.lastDayValue["last_highest_data"]
-                            ["conductivity"],
-                        "best-animal-conductivity")
-                  ],
-                ),
-              ],
-            ),
-          ),
+          lastDayWidget(widget.lastDayValue),
           LineChartPage(
               items: widget.milkQuantity,
               bottomTrend: widget.bottomTrendQuantity,

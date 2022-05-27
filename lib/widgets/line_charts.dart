@@ -8,12 +8,11 @@ class LineChartPage extends StatefulWidget {
   List<Milk> topTrend;
   List<Milk> bottomTrend;
 
-  LineChartPage({
-    required this.items,
-    required this.title,
-    required this.topTrend,
-    required this.bottomTrend,
-  });
+  LineChartPage(
+      {required this.items,
+      required this.title,
+      required this.topTrend,
+      required this.bottomTrend});
 
   @override
   State<LineChartPage> createState() => _LineChartPageState();
@@ -21,11 +20,21 @@ class LineChartPage extends StatefulWidget {
 
 class _LineChartPageState extends State<LineChartPage> {
   late TooltipBehavior _tooltipBehavior;
-
+  double min = 25;
+  double max = 0;
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
+
+    widget.items.forEach((e) {
+      if (e.varible < min) {
+        min = e.varible;
+      }
+      if (e.varible > max) {
+        max = e.varible;
+      }
+    });
   }
 
   @override
@@ -34,6 +43,7 @@ class _LineChartPageState extends State<LineChartPage> {
       children: [
         SizedBox(height: 20),
         SfCartesianChart(
+          primaryYAxis: NumericAxis(minimum: min, maximum: max),
           backgroundColor: Colors.white,
           title: ChartTitle(text: widget.title),
           indicators: <TechnicalIndicators<Milk, DateTime>>[

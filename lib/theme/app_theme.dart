@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:haytek/theme/color.dart';
 
 class AppTheme {
   final darkblue = Color(0xff292c7c);
-  final white = Color.fromARGB(255, 250, 250, 250);
+  final white = Color(0xfffafafa);
   final gray = Color(0xfff3f3f4);
   final black = Color(0xff212121);
   final blue = Color(0xff14279B);
@@ -19,10 +20,10 @@ class AppTheme {
       ),
     ),
     colorScheme: ColorScheme.light(
-      primary: Color(0xff2c2772),
-      primaryVariant: Colors.white38,
-      secondary: Color(0xff212121),
-    ),
+        primary: Color(0xff2c2772),
+        primaryVariant: Colors.white38,
+        secondary: Color(0xff212121),
+        error: Color(0xFFff5d75)),
     cardTheme: CardTheme(
       color: Colors.teal,
     ),
@@ -56,15 +57,5 @@ class AppTheme {
     iconTheme: IconThemeData(
       color: Colors.white54,
     ),
-    // textTheme: TextTheme(
-    //   title: TextStyle(
-    //     color: Colors.white,
-    //     fontSize: 20.0,
-    //   ),
-    //   subtitle: TextStyle(
-    //     color: Colors.white70,
-    //     fontSize: 18.0,
-    //   ),
-    // ),
   );
 }

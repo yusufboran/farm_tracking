@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-Widget Gauge(value, icon, listValue, listColor, double maxGauseVal) {
+Widget Gauge(value, icon, listValue, listColor, double maxGauseVal, unit) {
   return Container(
-    width: 120,
-    height: 120,
+    width: 140,
+    height: 140,
     child: SfRadialGauge(
       enableLoadingAnimation: true,
       animationDuration: 2000,
@@ -44,6 +44,15 @@ Widget Gauge(value, icon, listValue, listColor, double maxGauseVal) {
                   widget: Text(
                     value,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  )),
+              GaugeAnnotation(
+                  axisValue: maxGauseVal / 2,
+                  positionFactor: 0.25,
+                  horizontalAlignment: GaugeAlignment.center,
+                  verticalAlignment: GaugeAlignment.center,
+                  widget: Text(
+                    "($unit)",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
                   )),
               GaugeAnnotation(
                 angle: 90,

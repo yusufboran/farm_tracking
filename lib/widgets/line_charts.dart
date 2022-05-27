@@ -7,7 +7,6 @@ class LineChartPage extends StatefulWidget {
   String title;
   List<Milk> topTrend;
   List<Milk> bottomTrend;
-
   LineChartPage(
       {required this.items,
       required this.title,
@@ -79,6 +78,59 @@ class _LineChartPageState extends State<LineChartPage> {
                 xValueMapper: (Milk data, _) => data.dateTime,
                 yValueMapper: (Milk data, _) => data.varible,
                 color: Theme.of(context).colorScheme.error)
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Row(
+              children: [
+                Text(
+                  "--",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Theme.of(context).colorScheme.error),
+                ),
+                Text(" Alt Trend")
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  "—",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),
+                ),
+                Text(" Trend")
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  "--",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.purple),
+                ),
+                Text(" Üst Trend")
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  "~",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff00793b)),
+                ),
+                Text(" Veri")
+              ],
+            )
           ],
         ),
       ],

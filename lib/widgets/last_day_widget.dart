@@ -20,7 +20,10 @@ Widget lastDayWidget(lastDayValue) {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Text("Son Günü Ortalama Verileri"),
+              child: Text(
+                "Son Günü Ortalama Verileri",
+                style: TextStyle(fontSize: 16),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -51,7 +54,10 @@ Widget lastDayWidget(lastDayValue) {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Text("Son Günü Ortalama Verileri"),
+              child: Text(
+                "Son Günü En Verimli Hayvanın Verileri",
+                style: TextStyle(fontSize: 16),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

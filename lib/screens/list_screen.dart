@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:haytek/entities/milk.dart';
 import 'package:haytek/screens/animal_detail.dart';

@@ -3,8 +3,8 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 Widget Gauge(value, icon, listValue, listColor, double maxGauseVal, unit) {
   return Container(
-    width: 140,
-    height: 140,
+    width: 180,
+    height: 180,
     child: SfRadialGauge(
       enableLoadingAnimation: true,
       animationDuration: 2000,
@@ -59,8 +59,8 @@ Widget Gauge(value, icon, listValue, listColor, double maxGauseVal, unit) {
                 positionFactor: 0.6,
                 widget: Image.asset(
                   'assets/icons/$icon.png',
-                  width: 70,
-                  height: 50,
+                  width: 80,
+                  height: 60,
                 ),
               )
             ])

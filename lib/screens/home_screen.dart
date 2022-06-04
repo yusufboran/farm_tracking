@@ -56,6 +56,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
+          SizedBox(height: 10),
           lastDayWidget(widget.lastDayValue),
           LineChartPage(
               items: widget.milkQuantity,
